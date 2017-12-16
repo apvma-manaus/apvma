@@ -1,0 +1,1 @@
+web: gunicorn apvma.wsgi --log-file -
