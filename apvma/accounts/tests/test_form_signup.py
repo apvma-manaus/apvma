@@ -8,6 +8,6 @@ class SignUpFormTest(TestCase):
         self.form = SignUpForm()
 
     def test_form_has_fields(self):
-        expected = ['username', 'email', 'password1', 'password2']
+        expected = ['username', 'password1', 'password2']
         actual = list(self.form.fields)
         self.assertSequenceEqual(expected, actual)

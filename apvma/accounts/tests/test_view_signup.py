@@ -28,9 +28,8 @@ class SignUpViewTest(TestCase):
         password1, password2
         '''
         contents = [
-            ('<input', 5),
+            ('<input', 4),
             ('type="text"', 1),
-            ('type="email"', 1),
             ('type="password"', 2)
         ]
         for content, number in contents:
