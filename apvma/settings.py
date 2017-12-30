@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
     # other apps
     'widget_tweaks',
+    'test_without_migrations',
 
     # my apps
     'apvma.core',
@@ -137,3 +138,4 @@ LOGIN_URL = 'login'
 
 # email configuration
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_APVMA_EMAIL = 'apvma_to@email.com'

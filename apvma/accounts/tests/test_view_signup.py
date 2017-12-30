@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase
 from django.shortcuts import resolve_url as r
 
-from apvma.accounts.forms import SignUpForm
+from apvma.accounts.forms import SignUpForm, RequestSignUpForm
 
 
 class SignUpViewTest(TestCase):

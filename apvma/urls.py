@@ -22,6 +22,7 @@ from apvma.accounts import views as account_views
 
 urlpatterns = [
     path('signup/', account_views.signup, name='signup'),
+    path('request_signup/', account_views.request_signup, name='request_signup'),
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/',auth_views.LogoutView.as_view(), name='logout'),
     path('home', home, name='home'),
