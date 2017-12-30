@@ -1,9 +1,11 @@
+{% load cpf_filter %}
+
 Solicitação de cadastro de novo morador:
 
 Posto: {{ request_signup.post }}
 Nome completo: {{ request_signup.full_name }}
 Nome de Guerra: {{ request_signup.war_name }}
-CPF: 218.688.058-08
+CPF: {{ request_signup.cpf|cpf }}
 E-mail: {{ request_signup.email }}
 Bloco: {{ request_signup.block }}
 Apartamento: {{request_signup.apt_number }}
