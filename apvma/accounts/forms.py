@@ -35,9 +35,8 @@ class RequestSignUpForm(forms.ModelForm):
         model = Resident
         fields = ('post', 'full_name', 'war_name', 'cpf', 'email', 'block', 'apt_number')
 
-        # save custom field
-
     def save(self, commit=True):
+        """save fields block and apt_number to cleaned_data"""
         self.instance.block = self.cleaned_data['block']
         self.instance.apt_number = self.cleaned_data['apt_number']
         return super(RequestSignUpForm, self).save(commit=commit)

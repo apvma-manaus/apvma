@@ -1,24 +1,9 @@
 from django.conf import settings
-from django.contrib.auth import login
 from django.core import mail
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect, render_to_response
-from django.shortcuts import resolve_url as r
+from django.shortcuts import render, render_to_response
 from django.template.loader import render_to_string
 
-from apvma.accounts.forms import SignUpForm, RequestSignUpForm
-
-
-def signup(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            return redirect('home')
-    else:
-        form = SignUpForm()
-    return render(request, 'signup.html', {'form': form})
+from apvma.accounts.forms import RequestSignUpForm
 
 
 def request_signup(request):

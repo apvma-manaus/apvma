@@ -15,12 +15,12 @@
                     </form>
                 </div>
                 <div class="card-footer text-muted text-center">
-                    Novo morador na Vila do Aleixo? <a href="{% url 'signup' %}">Cadastre-se</a>
+                    Novo morador na Vila do Aleixo? <a href="{% url 'request_signup' %}">Solicite seu cadastro</a>
                 </div>
             </div>
             <div class="text-center py-2">
                 <small>
-                    <a href="#" class="text-muted">Esqueceu a senha?</a>
+                    <a href="{% url 'password_reset' %}" class="text-muted">Esqueceu a senha?</a>
                 </small>
             </div>
         </div>

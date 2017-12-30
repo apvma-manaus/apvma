@@ -8,3 +8,10 @@ class LogInViewTest(TestCase):
 
     def test_get(self):
         self.assertEqual(self.resp.status_code, 200)
+
+    def test_template(self):
+        self.assertTemplateUsed(self.resp, 'login.html')
+
+    def test_link_to_request_signup(self):
+        expected = '<a href="/request_signup/"'
+        self.assertContains(self.resp, expected)

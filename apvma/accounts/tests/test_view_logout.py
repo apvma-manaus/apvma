@@ -7,4 +7,4 @@ class LogOutViewTest(TestCase):
         self.resp = self.client.get(r('logout'))
 
     def test_get(self):
-        self.assertRedirects(self.resp, r('home'))
+        self.assertRedirects(self.resp, r('login'))
