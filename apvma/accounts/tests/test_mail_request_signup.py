@@ -33,7 +33,7 @@ class RequestSignUpMailTests(TestCase):
             'MJ',
             'Bruno Luiz Santana De Araujo',
             'SANTANA',
-            '218.688.058-08',
+            '123.456.789-01',
             'santana@fab.mil.br',
             'RS',
             '603'

@@ -42,3 +42,6 @@ class RequestSignUpForm(forms.ModelForm):
     def clean_war_name(self):
         war_name = self.cleaned_data['war_name']
         return war_name.upper()
+
+    def clean(self):
+        return self.cleaned_data

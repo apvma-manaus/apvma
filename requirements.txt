@@ -7,3 +7,4 @@ static3==0.7.0
 gunicorn==19.7.1
 psycopg2==2.7.3.2
 django-test-without-migrations==0.6
+django-widget-tweaks==1.4.1
