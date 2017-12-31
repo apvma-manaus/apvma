@@ -24,9 +24,3 @@ class Resident(models.Model):
     class Meta:
         verbose_name = 'morador'
         verbose_name_plural = 'moradores'
-
-    def __str__(self):
-        if self.apartment:
-            return ' '.join([self.post, self.war_name, '-', self.apartment])
-        else:
-            return ' '.join([self.post, self.war_name, '- sem apartamento alocado'])
