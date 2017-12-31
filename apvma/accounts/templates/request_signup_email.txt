@@ -2,9 +2,9 @@
 
 Solicitação de cadastro de novo morador:
 
-Posto: {{ request_signup.post }}
-Nome completo: {{ request_signup.full_name }}
-Nome de Guerra: {{ request_signup.war_name }}
-CPF: {{ request_signup.cpf|cpf }}
-E-mail: {{ request_signup.email }}
-Apartamento: {{ request_signup.block }}-{{request_signup.apt_number }}
+Posto: {{ form.post }}
+Nome completo: {{ form.full_name }}
+Nome de Guerra: {{ form.war_name }}
+CPF: {{ form.cpf|cpf }}
+E-mail: {{ form.email }}
+Apartamento: {{ form.block }}-{{form.apt_number }}

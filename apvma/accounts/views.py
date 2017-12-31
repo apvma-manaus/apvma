@@ -22,14 +22,12 @@ def create(request):
     if not form.is_valid():
         return render(request, 'request_signup_form.html', {'form': form})
 
-    request_signup = form.save()
-
     # Send email
     _send_mail('Solicitação de cadastro de novo morador',
-               request_signup.email,
+               form.cleaned_data['email'],
                settings.DEFAULT_APVMA_EMAIL,
                'request_signup_email.txt',
-               {'request_signup': request_signup})
+               {'form': form.cleaned_data})
 
     return render_to_response('request_signup_done.html', {'form': form})
 

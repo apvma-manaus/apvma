@@ -26,4 +26,7 @@ class Resident(models.Model):
         verbose_name_plural = 'moradores'
 
     def __str__(self):
-        return ' '.join([self.post, self.war_name, '-', self.apartment])
+        if self.apartment:
+            return ' '.join([self.post, self.war_name, '-', self.apartment])
+        else:
+            return ' '.join([self.post, self.war_name, '- sem apartamento alocado'])
