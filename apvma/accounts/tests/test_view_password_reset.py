@@ -82,6 +82,10 @@ class PasswordResetDoneTests(TestCase):
     def test_status_code(self):
         self.assertEquals(self.resp.status_code, 200)
 
+    def test_view_function(self):
+        view = resolve('/reset/done/')
+        self.assertEquals(view.func.view_class, auth_views.PasswordResetDoneView)
+
 
 class PasswordResetConfirmTests(TestCase):
     def setUp(self):

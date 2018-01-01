@@ -140,6 +140,7 @@ LOGIN_URL = 'login'
 
 # email configuration
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'apvma_from@email.com'
 DEFAULT_APVMA_EMAIL = 'apvma_to@email.com'
 
 
