@@ -56,6 +56,6 @@ class Resident(models.Model):
         verbose_name_plural = 'moradores'
 
     def __str__(self):
-        return '{} {}'.format(self.post, self.war_name)
+        return '{} {}'.format(self.post, self.war_name.upper())
 
 
