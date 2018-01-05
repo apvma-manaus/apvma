@@ -23,7 +23,7 @@ class Apartment(models.Model):
 
     block = models.CharField('bloco', max_length=2, choices=BLOCKS)
     number = models.CharField('número', max_length=3, choices=NUMBERS)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, verbose_name='login', on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ('block', 'number')
@@ -49,7 +49,7 @@ class Resident(models.Model):
     war_name = models.CharField('nome de guerra', max_length=20)
     cpf = models.CharField('CPF', max_length=11, validators=[validate_cpf])
     email = models.EmailField('email ZIMBRA')
-    apartment = models.OneToOneField('Apartment', on_delete=models.SET_NULL, blank=True, null=True)
+    apartment = models.OneToOneField('Apartment', verbose_name='apartamento', on_delete=models.SET_NULL, blank=True, null=True)
 
     class Meta:
         verbose_name = 'morador'
@@ -59,3 +59,15 @@ class Resident(models.Model):
         return '{} {}'.format(self.post, self.war_name.upper())
 
 
+class Employee(models.Model):
+    full_name = models.CharField('nome completo', max_length=100)
+    cpf = models.CharField('CPF', max_length=11, validators=[validate_cpf])
+    birth_date = models.DateField()
+    user = models.OneToOneField(User, verbose_name='login', on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'trabalhador'
+        verbose_name_plural = 'trabalhadores'
+
+    def __str__(self):
+        return '{} {}'.format(self.full_name[0], self.full_name[-1])

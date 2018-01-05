@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from apvma.core.models import Resident, Apartment
+from apvma.core.models import Resident, Apartment, Employee
 
 
 class ApartmentInLine(admin.TabularInline):
@@ -36,3 +36,4 @@ admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
 admin.site.register(Apartment)
 admin.site.register(Resident)
+admin.site.register(Employee)
