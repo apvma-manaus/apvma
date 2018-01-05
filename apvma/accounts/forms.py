@@ -45,3 +45,16 @@ class RequestSignUpForm(forms.ModelForm):
 
     def clean(self):
         return self.cleaned_data
+
+    def __init__(self, *args, **kwargs):
+        super(RequestSignUpForm, self).__init__(*args, **kwargs)
+        for key, field in self.fields.items():
+            placeholders = [
+                ('full_name', 'Digite aqui o nome completo'),
+                ('war_name', 'Digite aqui o nome de guerra'),
+                ('cpf', 'Digite apenas números'),
+                ('email', 'Digite o e-mail ZIMBRA'),
+            ]
+            for field_name, placeholder in placeholders:
+                if key == field_name:
+                    field.widget.attrs.update({'placeholder': placeholder})
