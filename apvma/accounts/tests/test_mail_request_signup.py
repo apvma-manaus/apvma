@@ -24,7 +24,7 @@ class RequestSignUpMailTests(TestCase):
 
     def test_subscription_email_to(self):
         """Email must be sent to the user and to the sender"""
-        expect = ['apvma_to@email.com']
+        expect = ['contatoapvma@gmail.com']
         self.assertEqual(expect, self.email.to)
 
     def test_subscription_email_body(self):

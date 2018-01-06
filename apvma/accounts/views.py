@@ -29,8 +29,8 @@ def create(request):
                'request_signup_email.txt',
                {'form': form.cleaned_data})
 
-    return render_to_response('request_signup_done.html', {'form': form})
+    return render_to_response('request_signup_done.html')
 
 def _send_mail(subject, from_, to, template_name, context):
     body = render_to_string(template_name, context)
-    mail.send_mail(subject, body, from_, [to])
+    mail.send_mail(subject, body, from_, [to,])
