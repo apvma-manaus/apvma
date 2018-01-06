@@ -20,6 +20,10 @@ class HomeViewLoggedTest(TestCase):
         expected = 'href="/settings/password/"'
         self.assertContains(self.resp, expected)
 
+    def test_link_to_accountability(self):
+        expected = 'href="{}"'.format(r('accountability'))
+        self.assertContains(self.resp, expected)
+
 
 class HomeViewNotLoggedInTest(TestCase):
     def setUp(self):

@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
 from apvma.core.views import home
@@ -50,4 +50,7 @@ urlpatterns = [
          name='password_change'),
     path('settings/password/done/', auth_views.PasswordChangeDoneView.as_view(template_name='password_change_done.html'),
          name='password_change_done'),
+
+    # accountability urls
+    path('accountability/', include('apvma.accountability.urls'))
 ]

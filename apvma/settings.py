@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     # my apps
     'apvma.core',
     'apvma.accounts',
+    'apvma.accountability.apps.AccountabilityAppConfig',
 ]
 
 MIDDLEWARE = [
@@ -115,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'pt-br'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Manaus'
 
 USE_I18N = True
 
@@ -132,6 +133,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+
+# Media files
+MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
 
 LOGOUT_REDIRECT_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
