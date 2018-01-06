@@ -9,3 +9,5 @@ class AccountabilityModelTest(TestCase):
 
     def test_create(self):
         self.assertTrue(Accountability.objects.exists())
+
+#TODO: em produção, ocorre error 500 ao salvar o modelo

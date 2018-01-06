@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     # other apps
     'widget_tweaks',
     'test_without_migrations',
+    'storages',
 
     # my apps
     'apvma.core',
@@ -127,14 +128,29 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
+AWS_STORAGE_BUCKET_NAME = 'apvma'
+AWS_S3_REGION_NAME = 'sa-east-1'  # e.g. us-east-2
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+
+# Tell django-storages the domain to use to refer to static files.
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+# Tell the staticfiles app to use S3Boto3 storage when writing the collected static files (when
+# you run `collectstatic`).
+STATICFILES_STORAGE = 'custom_storages.StaticStorage'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_LOCATION = 'static'
 
 
 # Media files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'mediafiles')
+MEDIAFILES_LOCATION = 'media'
+DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
 
+# Login
 LOGOUT_REDIRECT_URL = 'login'
 LOGIN_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
