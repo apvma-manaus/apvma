@@ -16,3 +16,5 @@ def pdf_view(request, file):
     from django.conf.global_settings import MEDIA_ROOT
     pdf = open('{}/{}'.format('mediafiles/accountability', file), 'rb').read()
     return HttpResponse(pdf, content_type='application/pdf')
+
+#TODO: corrigir MEDIA_ROOT no pdf_view

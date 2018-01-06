@@ -26,3 +26,5 @@ class PasswordResetMailTests(TestCase):
 
     def test_email_to(self):
         self.assertEqual(['bruno@santana.com',], self.email.to)
+
+#TODO: e-mail não está sendo enviado para reset de senha
