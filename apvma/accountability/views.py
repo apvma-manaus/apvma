@@ -1,3 +1,5 @@
+import os
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -13,6 +15,6 @@ def accountability(request):
 
 @login_required
 def pdf_view(request, file):
-    from django.conf import settings
-    pdf = open('{}/{}'.format(settings.MEDIA_ROOT, file), 'rb').read()
+    file = os.path.join(settings.MEDIA_ROOT, file)
+    pdf = open(file, 'rb').read()
     return HttpResponse(pdf, content_type='application/pdf')

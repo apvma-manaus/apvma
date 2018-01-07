@@ -12,5 +12,5 @@ class Accountability(models.Model):
 
     def __str__(self):
         import locale
-        locale.setlocale(locale.LC_ALL, 'pt_BR')
+        locale.setlocale(locale.LC_ALL, '')
         return self.date.strftime('%Y/%B')
