@@ -8,3 +8,11 @@ gunicorn==19.7.1
 psycopg2==2.7.3.2
 django-test-without-migrations==0.6
 django-widget-tweaks==1.4.1
+boto3==1.5.9
+botocore==1.8.23
+django-storages==1.6.5
+docutils==0.14
+jmespath==0.9.3
+python-dateutil==2.6.1
+s3transfer==0.1.12
+six==1.11.0

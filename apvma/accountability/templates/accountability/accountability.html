@@ -4,7 +4,7 @@
     <br>
     <h3>Prestação de Contas</h3>
     {% for accountability in accountabilities %}
-        <p><a target="_blank" href="{{ accountability.file.name }}">
+        <p><a target="_blank" href="{{ accountability.file.url }}">
             {{ accountability.date|date:"Y/F" }}</a></p>
     {% endfor %}
 {% endblock content %}

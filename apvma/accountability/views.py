@@ -13,8 +13,6 @@ def accountability(request):
 
 @login_required
 def pdf_view(request, file):
-    from django.conf.global_settings import MEDIA_ROOT
-    pdf = open('{}/{}'.format('mediafiles/accountability', file), 'rb').read()
+    from django.conf import settings
+    pdf = open('{}/{}'.format(settings.MEDIA_ROOT, file), 'rb').read()
     return HttpResponse(pdf, content_type='application/pdf')
-
-#TODO: corrigir MEDIA_ROOT no pdf_view
