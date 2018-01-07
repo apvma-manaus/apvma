@@ -15,6 +15,6 @@ def accountability(request):
 
 @login_required
 def pdf_view(request, file):
-    file = os.path.join(settings.MEDIA_ROOT, file)
-    pdf = open(file, 'rb').read()
-    return HttpResponse(pdf, content_type='application/pdf')
+    fpath = os.path.join(settings.MEDIA_ROOT, file)
+    with open(fpath, 'rb') as pdf:
+        return HttpResponse(pdf.read(), content_type='application/pdf')
