@@ -1,10 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/accountability.css' %}">
+{% endblock stylesheet %}
 
 {% block content %}
     <br>
     <h3>Prestação de Contas</h3>
     {% for accountability in accountabilities %}
-        <p><a target="_blank" href="{{ accountability.file.url }}">
+        <p><a target="_blank" href="{{ accountability.file.url }}" class="account">
             {{ accountability.date|date:"Y/F" }}</a></p>
     {% endfor %}
 {% endblock content %}
+'
