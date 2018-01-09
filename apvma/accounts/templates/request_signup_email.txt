@@ -3,8 +3,13 @@
 Solicitação de cadastro de novo morador:
 
 Posto: {{ form.post }}
+
 Nome completo: {{ form.full_name }}
+
 Nome de Guerra: {{ form.war_name }}
+
 CPF: {{ form.cpf|cpf }}
+
 E-mail: {{ form.email }}
+
 Apartamento: {{ form.block }}-{{form.apt_number }}
