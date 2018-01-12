@@ -52,18 +52,19 @@ class Reservation(models.Model):
         """Defines the background color of each reservation line in the table"""
         if self.paid:
             return '#9FFF99'  # green
-        if self.canceled or self.expired():
+        if self.canceled or self.expired:
             return '#FF9A84' #red
         else:
             return 'white'
 
     def expired(self):
         """Returns True if reservation expires and no payment is done"""
-        days = (timezone.now() - self.created_on).days
-        seconds = (timezone.now() - self.created_on).seconds
-        days_valid = 2
-        if (days > days_valid) or (days == days_valid and seconds > 0):
-            return True
+        expires_on = datetime(
+            self.expires_on.year, self.expires_on.month, self.expires_on.day,
+            self.expires_on.hour, self.expires_on.minute
+        )
+        if (timezone.now() > expires_on) and not self.paid:
+            return False
         else:
             return False
 
@@ -78,7 +79,7 @@ class Reservation(models.Model):
             return 'cancelada em {}'.format(self.canceled_on.date().strftime('%d/%m/%Y'))
         elif self.paid:
             return 'confirmada'
-        elif self.expired():
+        elif self.expired:
             return 'expirada por falta de pagamento'
         else:
             return 'aguardando pagamento'

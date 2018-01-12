@@ -14,7 +14,7 @@
             {% for reservation in reservations %}
                 <tr align="center" height="30" id="reservation_{{ reservation.pk }}"
                     bgcolor="{{ reservation.get_color }}">
-                    <td>{{ reservation.date }}</td>
+                    <td>{{ reservation.date }}, {{ reservation.date|date:"l" }}</td>
                     <td>{{ reservation.get_spot_display }}</td>
                     <td>{{ reservation.status }}</td>
                 </tr>

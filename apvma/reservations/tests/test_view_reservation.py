@@ -43,7 +43,7 @@ class ReservartionViewContainReservation(TestCase):
         self.user = User.objects.create_user(username='bruno', password='1234')
         self.client.login(username='bruno', password='1234')
         self.reservation = Reservation.objects.create(
-            user=self.user, date='2018-01-15', spot='Tapiri'
+            user=self.user, date='2018-01-21', spot='Tapiri'
         )
         self.resp = self.client.get(r('reservations'))
 
@@ -53,7 +53,7 @@ class ReservartionViewContainReservation(TestCase):
 
     def test_has_reservation(self):
         expected = ['DATA', 'AMBIENTE', 'SITUAÇÃO DA RESERVA',
-                    '15 de Janeiro de 2018', 'Tapiri']
+                    '21 de Janeiro de 2018', 'Domingo', 'Tapiri']
         with self.subTest():
             for text in expected:
                 self.assertContains(self.resp, text)
@@ -70,9 +70,35 @@ class ReservartionViewContainReservation(TestCase):
         self.assertContains(resp, expected)
 
     def test_reservation_canceled(self):
-        self.reservation.canceled = True
-        self.reservation.canceled_on = datetime(2018, 1, 12, 12, 0, 0, tzinfo=pytz.UTC)
-        self.reservation.save()
+        reservation2 = Reservation.objects.create(
+            user=self.user, date='2018-01-22', spot='Tapiri'
+        )
+        reservation2.canceled = True
+        reservation2.canceled_on = datetime(2018, 1, 11, 12, 0, 0, tzinfo=pytz.UTC)
+        reservation2.save()
         resp = self.client.get(r('reservations'))
-        expected = 'cancelada em 12/01/2018'
+        expected = 'cancelada em 11/01/2018'
+        self.assertContains(resp, expected)
+
+    def test_reservation_expired(self):
+        """Reservation must expire in 48h if the user doesn't pay it"""
+        reservation3 = Reservation.objects.create(
+            user=self.user, date='2018-01-23', spot='Tapiri'
+        )
+        reservation3.created_on = datetime(2018, 1, 7, 12, 0, 0, tzinfo=pytz.UTC)
+        reservation3.save()
+        resp = self.client.get(r('reservations'))
+        expected = 'expirada por falta de pagamento'
+        self.assertContains(resp, expected)
+
+    def test_reservation_paid_doesnt_expire(self):
+        """Reservation paid does not expire"""
+        reservation4 = Reservation.objects.create(
+            user=self.user, date='2018-01-24', spot='Tapiri'
+        )
+        reservation4.created_on = datetime(2018, 1, 7, 12, 0, 0, tzinfo=pytz.UTC)
+        reservation4.paid = True
+        reservation4.save()
+        resp = self.client.get(r('reservations'))
+        expected = 'confirmada'
         self.assertContains(resp, expected)
