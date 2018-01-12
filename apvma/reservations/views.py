@@ -8,7 +8,7 @@ from apvma.reservations.models import Reservation
 
 @login_required
 def reservations(request):
-    reservations = Reservation.objects.filter(user=request.user.pk, date__gt=datetime.now().date())
+    reservations = Reservation.objects.filter(user=request.user.pk, date__gte=datetime.now().date())
     context = {'reservations': reservations}
     return render(request, 'reservations/reservations.html', context)
 
