@@ -56,5 +56,8 @@ urlpatterns = [
          name='password_change_done'),
 
     # accountability urls
-    path('accountability/', include('apvma.accountability.urls'))
+    path('accountability/', include('apvma.accountability.urls')),
+
+    # reservations urls
+    path('reservations/', include('apvma.reservations.urls')),
 ]

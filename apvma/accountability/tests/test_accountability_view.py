@@ -26,6 +26,11 @@ class AccountabilityViewLoggedTest(TestCase):
             for text in expected:
                 self.assertContains(self.resp, text)
 
+    # def test_accountability_order(self):
+    #     """Acconuts must appear from the most recent to the last recent"""
+    #     Accountability.objects.create(date='2017-11-01', file='OUT_2017.pdf')
+    #     accounts = Accountability.objects.all()
+
 
 class AccountabilityViewNotLoggedTest(TestCase):
     def setUp(self):

@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'apvma.core',
     'apvma.accounts',
     'apvma.accountability.apps.AccountabilityAppConfig',
+    'apvma.reservations',
 ]
 
 MIDDLEWARE = [

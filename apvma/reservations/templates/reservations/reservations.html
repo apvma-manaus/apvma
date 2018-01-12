@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+    <br>
+    <h3>Reservas</h3>
+    {% if reservations %}
+        <table width="100%" border="1">
+            <tr align="center" height="70" bgcolor="#E3E3E3">
+                <td><b>DATA</b></td>
+                <td><b>AMBIENTE</b></td>
+                <td><b>SITUAÇÃO DA RESERVA</b></td>
+            </tr>
+            {% for reservation in reservations %}
+                <tr align="center" height="30" id="reservation_{{ reservation.pk }}"
+                    bgcolor="{{ reservation.get_color }}">
+                    <td>{{ reservation.date }}</td>
+                    <td>{{ reservation.get_spot_display }}</td>
+                    <td>{{ reservation.status }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Você não possui reservas agendadas.</p>
+    {% endif %}
+{% endblock content %}
