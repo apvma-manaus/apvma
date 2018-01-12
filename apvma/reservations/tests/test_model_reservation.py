@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.db import IntegrityError
 from django.test import TestCase
 
 from apvma.reservations.models import Reservation
@@ -14,3 +15,8 @@ class ReservationModelTest(TestCase):
 
     def test_create(self):
         self.assertTrue(Reservation.objects.exists())
+
+    def test_nuiqueness(self):
+        """One spot can not be reserved for two apartments at the same day"""
+        with self.assertRaises(IntegrityError):
+            reservation_already_exists = Reservation.objects.create(date='2018-01-10', spot='Tapiri')

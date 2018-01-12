@@ -11,8 +11,8 @@ class Reservation(models.Model):
         ('SF', 'Salão de Festas')
     )
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date = models.DateField('data')
+    user = models.ForeignKey(User,verbose_name='apartamento', on_delete=models.CASCADE)
+    date = models.DateField('data solicitada')
     spot = models.CharField('ambiente', max_length=2, choices=SPOTS)
     created_on = models.DateTimeField('data da solicitação', auto_now_add=True)
     paid = models.BooleanField('pago', default=False)
@@ -29,6 +29,7 @@ class Reservation(models.Model):
 
 
     class Meta:
+        unique_together = ('date', 'spot')
         verbose_name = 'reserva'
         verbose_name_plural = 'reservas'
         ordering = ('date',)
