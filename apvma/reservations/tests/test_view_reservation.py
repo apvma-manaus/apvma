@@ -52,7 +52,7 @@ class ReservartionViewContainReservation(TestCase):
         self.assertIsInstance(reservation, Reservation)
 
     def test_has_reservation(self):
-        expected = ['DATA', 'AMBIENTE', 'SITUAÇÃO DA RESERVA',
+        expected = ['DATA', 'LOCAL', 'SITUAÇÃO DA RESERVA',
                     '21 de Janeiro de 2018', 'Domingo', 'Tapiri']
         with self.subTest():
             for text in expected:
