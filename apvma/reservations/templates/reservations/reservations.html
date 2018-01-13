@@ -3,12 +3,12 @@
 
 {% block content %}
     <br>
-    <h3>Reservas</h3>
+    <h3>Minhas Reservas</h3>
     {% if reservations %}
         <table width="100%" border="1">
             <tr align="center" height="70" bgcolor="#E3E3E3">
                 <td><b>DATA</b></td>
-                <td><b>AMBIENTE</b></td>
+                <td><b>LOCAL</b></td>
                 <td><b>SITUAÇÃO DA RESERVA</b></td>
             </tr>
             {% for reservation in reservations %}
