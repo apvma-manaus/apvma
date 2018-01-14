@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'test_without_migrations',
     'storages',
+    'rest_framework',
 
     # my apps
     'apvma.core',

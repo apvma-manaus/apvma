@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
 
+from apvma.reservations.manager import ValidReservationManager
+
 
 class Reservation(models.Model):
     SPOTS = (
@@ -63,10 +65,10 @@ class Reservation(models.Model):
         days = (timezone.now() - self.created_on).days
         seconds = (timezone.now() - self.created_on).seconds
         days_valid = 2
-        if (days > days_valid) or (days == days_valid and seconds > 0):
-            return True
-        else:
-            return False
+        return (days > days_valid) or (days == days_valid and seconds > 0)
+
+    objects = models.Manager() # the default manager
+    valid_reservations = ValidReservationManager() # valid reservation manager
 
     @property
     def status(self):

@@ -17,9 +17,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from django.views.generic import RedirectView
+from rest_framework import routers
 
 from apvma.core.views import home
 from apvma.accounts import views as account_views
+from apvma.reservations.views import ReservationViewSet
+
+router = routers.DefaultRouter()
+router.register(r'reservations', ReservationViewSet)
 
 urlpatterns = [
     path('home', home, name='home'),
@@ -60,4 +65,9 @@ urlpatterns = [
 
     # reservations urls
     path('reservations/', include('apvma.reservations.urls')),
+
+
+    # reservation calendar api
+    path('api/', include(router.urls)),
+    path('auth/', include('rest_framework.urls'))
 ]

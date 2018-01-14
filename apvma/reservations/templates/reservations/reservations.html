@@ -1,17 +1,24 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+{% endblock stylesheet %}
 
 
 {% block content %}
-    <br>
-    <h3>Minhas Reservas</h3>
-    {% if reservations %}
-        <table width="100%" border="1">
-            <tr align="center" height="70" bgcolor="#E3E3E3">
+
+    <h3>Minhas reservas</h3>
+    {% if my_reservations %}
+        <table width="85%" border="1" align="center">
+            <tr align="center" height="40" bgcolor="#E3E3E3">
                 <td><b>DATA</b></td>
                 <td><b>LOCAL</b></td>
                 <td><b>SITUAÇÃO DA RESERVA</b></td>
             </tr>
-            {% for reservation in reservations %}
+            {% for reservation in my_reservations %}
                 <tr align="center" height="30" id="reservation_{{ reservation.pk }}"
                     bgcolor="{{ reservation.get_color }}">
                     <td>{{ reservation.date }}, {{ reservation.date|date:"l" }}</td>
@@ -23,4 +30,128 @@
     {% else %}
         <p>Você não possui reservas agendadas.</p>
     {% endif %}
+
+
+    <h3>Disponibilidade</h3> <h5>(TP = Tapiri; SF = Salão de Festas)</h5>
+
+    <div class="row">
+      <div class="col-md-5 col-md-offset-1">
+        <a href="{% url 'reservation_calendar' year=previous.year month=previous.month %}">« Mês anterior</a>
+      </div>
+      <div class="col-md-5 text-right">
+        <a href="{% url 'reservation_calendar' year=next.year month=next.month %}">Próximo mês »</a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1">
+
+        <table class="table table-bordered" style="border: 1px solid black" >
+
+          <thead>
+            <tr>
+              <th colspan="7" style="border: 1px solid black" bgcolor="#C4C4C4">{{ selected_date|date:"F" }} {{ selected_date.year }}</th>
+            </tr>
+            <tr bgcolor="#E3E3E3">
+              <th style="border: 1px solid black">Domingo</th>
+              <th style="border: 1px solid black">Segunda</th>
+              <th style="border: 1px solid black">Terça</th>
+              <th style="border: 1px solid black">Quarta</th>
+              <th style="border: 1px solid black">Quinta</th>
+              <th style="border: 1px solid black">Sexta</th>
+              <th style="border: 1px solid black">Sábado</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for week in calendar %}
+            <tr style="height: 100px">
+              {% for day, tp_reservation, sf_reservation in week %}
+              <td style="border: 1px solid black"
+                {% if selected_date.month != day.month %}
+                class ="other"
+                {% else %}
+                id="day_{{ day.day }}"
+                {% endif %}
+              >
+                <strong>{{ day.day }}</strong>
+                <br>
+                {% if tp_reservation %}
+                    <p align="center" style="color: white;
+                    border-radius: 5px; background-color: green;
+                    padding: 2px;">
+                        {{ tp_reservation.spot }} - {{ tp_reservation.user.username }}
+                    </p>
+                {% endif %}
+                {% if sf_reservation %}
+                    <p align="center" style="color: white;
+                    border-radius: 5px; background-color: darkblue;
+                    padding: 2px;">
+                        {{ sf_reservation.spot }} - {{ sf_reservation.user.username }}
+                    </p>
+                {% else %}
+                    <p>&nbsp;</p>
+                {% endif %}
+              </td>
+              {% endfor %}
+            </tr>
+            {% endfor %}
+          </tbody>
+
+        </table>
+
+        {% if request.user.is_authenticated %}
+        <h2>Faça sua reserva</h2>
+
+        <form action="." method="post">
+        {% csrf_token %}
+
+          <input type="hidden" name="user" id="user" value="{{ request.user.pk }}">
+
+          <div class="form-group">
+            <label for="spot">Local</label>
+            <select class="form-control" id="spot" name="spot">
+                <option disabled selected value>-----</option>
+                <option value="TP">Tapiri</option>
+                <option value="SF">Salão de Festas</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="date">Data</label>
+            <select class="form-control" name="date" id="date">
+              <option disabled selected value>-----</option>
+              {% for week in calendar %}
+              {% for day, tp_reservation, sf_reservation in week %}
+              {% if selected_date.month == day.month %}
+              {% if not tp_reservation or not sf_reservation %}
+              <option value="{{ day.year }}-{{ day.month }}-{{ day.day}}">{{ day }}</option>
+              {% endif %}
+              {% endif %}
+              {% endfor %}
+              {% endfor %}
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Reservar</button>
+
+        </form>
+
+        {% endif %}
+
+
+      </div><!-- end .col-md-10 -->
+    </div><!-- end .row -->
+
+    <script src="{% static 'js/django_csrf.js' %}"></script>
+    <script src="{% static 'js/app.js' %}"></script>
+
+
 {% endblock content %}
+
+
+{# TODO: restringir calendário a 3 meses #}
+{# TODO: restringir seleção de dias passados #}
+{# TODO: erro ao selecionar o mesmo local para uma data já com reserva #}
+{# TODO: layout de Faça a sua reserva #}
+{# TODO: aparecer apenas reservas válidas no calendário #}

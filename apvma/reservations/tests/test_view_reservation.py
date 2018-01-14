@@ -11,6 +11,7 @@ from django.urls import reverse
 from apvma.reservations.models import Reservation
 
 
+@freeze_time('2018-01-10')
 class ReservationViewLoggedTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='bruno', password='1234')
@@ -27,8 +28,31 @@ class ReservationViewLoggedTest(TestCase):
         expected = 'Você não possui reservas agendadas.'
         self.assertContains(self.resp, expected)
 
+    def test_html(self):
+        """Html must contain 3 titles: Minhas reservas, Disponibilidade and Faça sua reserva """
+        titles = ['Minhas reservas', 'Disponibilidade', 'Faça sua reserva']
+        with self.subTest():
+            for title in titles:
+                self.assertContains(self.resp, title)
 
-class ReservationViewNotLoggedTest(TestCase):
+    def test_html_has_calendar(self):
+        """Html must show a calendar"""
+        weekdays = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
+        with self.subTest():
+            for day in weekdays:
+                self.assertContains(self.resp, day)
+
+    def test_html_calendar_must_have_link_to_next_and_previous_month(self):
+        """Calendar must have previous month and next month link"""
+        links = ['<a href="/reservations/2017/12/">« Mês anterior</a>',
+                 '<a href="/reservations/2018/2/">Próximo mês »</a>']
+        with self.subTest():
+            for link in links:
+                self.assertContains(self.resp, link)
+
+
+
+class ResevationViewNotLoggedTest(TestCase):
     def setUp(self):
         self.resp = self.client.get(r('reservations'))
 
