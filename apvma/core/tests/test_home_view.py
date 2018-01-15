@@ -24,6 +24,10 @@ class HomeViewLoggedTest(TestCase):
         expected = 'href="{}"'.format(r('accountability'))
         self.assertContains(self.resp, expected)
 
+    def test_link_to_reservations(self):
+        expected = 'href="{}"'.format(r('reservations'))
+        self.assertContains(self.resp, expected)
+
 
 class HomeViewNotLoggedInTest(TestCase):
     def setUp(self):
