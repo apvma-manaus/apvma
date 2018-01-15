@@ -9,5 +9,3 @@ class ValidReservationManager(models.Manager):
         now = timezone.now()
         return super(ValidReservationManager, self).get_queryset().filter(
             Q(canceled=False), Q(paid=False, expires_on__gt=now) | Q(paid=True))
-
-#TODO: filtrar reservas válidas para passar para o template. Aparecer apenas reservas válidas no calenário

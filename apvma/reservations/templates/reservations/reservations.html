@@ -4,11 +4,19 @@
 {% block stylesheet %}
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/reservations.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 {% endblock stylesheet %}
 
 
 {% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="container" align="center">
+                <p class="calendar-message-{{ message.tags }}">{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
 
     <h3>Minhas reservas</h3>
     {% if my_reservations %}
@@ -27,12 +35,36 @@
                 </tr>
             {% endfor %}
         </table>
+
+         <form action="." method="post">
+        {% csrf_token %}
+        <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+
+          <input type="hidden" name="user" id="user" value="{{ request.user.pk }}">
+
+          <div class="form-group">
+            <label for="spot">Cancelar reserva</label>
+            <select class="form-control" id="cancel_reservation" name="cancel_reservation">
+                <option disabled selected value>-----</option>
+                {% for reservation in my_valid_reservations %}
+                    <option value="{{ reservation.pk }}">{{ reservation.date }} - {{ reservation.get_spot_display }}</option>
+                {% endfor %}
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Cancelar reserva</button>
+
+        </div>
+        </div>
+
     {% else %}
         <p>Você não possui reservas agendadas.</p>
     {% endif %}
 
 
-    <h3>Disponibilidade</h3> <h5>(TP = Tapiri; SF = Salão de Festas)</h5>
+    <h3>Disponibilidade</h3>
+    <h5 class="calendar-tp-reservation-future" align="center" style="width: 10%; padding: 5px">TP = Tapiri</h5>
+    <h5 class="calendar-sf-reservation-future" align="center" style="width: 18%; padding: 5px">SF = Salão de Festas)</h5>
 
     <div class="row">
       <div class="col-md-5 col-md-offset-1">
@@ -68,7 +100,7 @@
             <tr style="height: 100px">
               {% for day, tp_reservation, sf_reservation in week %}
               <td style="border: 1px solid black"
-                {% if selected_date.month != day.month %}
+                {% if selected_date.month != day.month or day > maximum_reservation_date or day <= minimum_reservation_date %}
                 class ="other"
                 {% else %}
                 id="day_{{ day.day }}"
@@ -76,17 +108,21 @@
               >
                 <strong>{{ day.day }}</strong>
                 <br>
-                {% if tp_reservation %}
-                    <p align="center" style="color: white;
-                    border-radius: 5px; background-color: green;
-                    padding: 2px;">
+                {% if tp_reservation and day > today and day < maximum_reservation_date %}
+                    <p align="center" class="calendar-tp-reservation-future">
+                        {{ tp_reservation.spot }} - {{ tp_reservation.user.username }}
+                    </p>
+                {% elif tp_reservation %}
+                    <p align="center" class="calendar-tp-reservation-past">
                         {{ tp_reservation.spot }} - {{ tp_reservation.user.username }}
                     </p>
                 {% endif %}
-                {% if sf_reservation %}
-                    <p align="center" style="color: white;
-                    border-radius: 5px; background-color: darkblue;
-                    padding: 2px;">
+                {% if sf_reservation and day > today and day < maximum_reservation_date %}
+                    <p align="center" class="calendar-sf-reservation-future">
+                        {{ sf_reservation.spot }} - {{ sf_reservation.user.username }}
+                    </p>
+                {% elif sf_reservation %}
+                    <p align="center" class="calendar-sf-reservation-past">
                         {{ sf_reservation.spot }} - {{ sf_reservation.user.username }}
                     </p>
                 {% else %}
@@ -123,7 +159,7 @@
               <option disabled selected value>-----</option>
               {% for week in calendar %}
               {% for day, tp_reservation, sf_reservation in week %}
-              {% if selected_date.month == day.month %}
+              {% if selected_date.month == day.month and day <= maximum_reservation_date and day > minimum_reservation_date %}
               {% if not tp_reservation or not sf_reservation %}
               <option value="{{ day.year }}-{{ day.month }}-{{ day.day}}">{{ day }}</option>
               {% endif %}
@@ -150,8 +186,4 @@
 {% endblock content %}
 
 
-{# TODO: restringir calendário a 3 meses #}
-{# TODO: restringir seleção de dias passados #}
-{# TODO: erro ao selecionar o mesmo local para uma data já com reserva #}
 {# TODO: layout de Faça a sua reserva #}
-{# TODO: aparecer apenas reservas válidas no calendário #}

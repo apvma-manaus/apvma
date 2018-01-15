@@ -1,4 +1,6 @@
 from datetime import datetime
+
+from django.utils import timezone
 from freezegun import freeze_time
 
 
@@ -98,10 +100,10 @@ class ReservartionViewContainReservation(TestCase):
             user=self.user, date='2018-01-22', spot='Tapiri'
         )
         reservation2.canceled = True
-        reservation2.canceled_on = datetime(2018, 1, 11, 12, 0, 0, tzinfo=pytz.UTC)
+        reservation2.canceled_on = timezone.now()
         reservation2.save()
         resp = self.client.get(r('reservations'))
-        expected = 'cancelada em 11/01/2018'
+        expected = 'cancelada em 10/01/2018'
         self.assertContains(resp, expected)
 
     def test_reservation_expired(self):
@@ -110,6 +112,7 @@ class ReservartionViewContainReservation(TestCase):
             user=self.user, date='2018-01-23', spot='Tapiri'
         )
         reservation3.created_on = datetime(2018, 1, 7, 12, 0, 0, tzinfo=pytz.UTC)
+        reservation3.expires_on = datetime(2018, 1, 8, 12, 0, 0, tzinfo=pytz.UTC)
         reservation3.save()
         resp = self.client.get(r('reservations'))
         expected = 'expirada por falta de pagamento'

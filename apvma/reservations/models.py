@@ -25,13 +25,15 @@ class Reservation(models.Model):
     def save(self, *args, **kwargs):
         '''Defines expires_on datetime when creating a reservation'''
         if not self.pk:
-            days_valid = 2
+            days_valid = 1
             self.expires_on = timezone.now() + timedelta(days=days_valid)
+        if self.canceled:
+            self.canceled_on = timezone.now()
+
         return super(Reservation, self).save(*args, **kwargs)
 
 
     class Meta:
-        unique_together = ('date', 'spot')
         verbose_name = 'reserva'
         verbose_name_plural = 'reservas'
         ordering = ('date',)
@@ -53,19 +55,19 @@ class Reservation(models.Model):
 
     def get_color(self):
         """Defines the background color of each reservation line in the table"""
-        if self.paid:
-            return '#9FFF99'  # green
         if self.canceled or self.expired():
             return '#FF9A84' #red
+        if self.paid:
+            return '#9FFF99'  # green
         else:
             return 'white'
 
     def expired(self):
         """Returns True if reservation expires and no payment is done"""
-        days = (timezone.now() - self.created_on).days
-        seconds = (timezone.now() - self.created_on).seconds
-        days_valid = 2
-        return (days > days_valid) or (days == days_valid and seconds > 0)
+        if self.paid:
+            return False
+        else:
+            return self.expires_on < timezone.now()
 
     objects = models.Manager() # the default manager
     valid_reservations = ValidReservationManager() # valid reservation manager
