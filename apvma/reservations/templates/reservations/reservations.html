@@ -63,8 +63,9 @@
 
 
     <h3>Disponibilidade</h3>
-    <h5 class="calendar-tp-reservation-future" align="center" style="width: 10%; padding: 5px">TP = Tapiri</h5>
-    <h5 class="calendar-sf-reservation-future" align="center" style="width: 18%; padding: 5px">SF = Salão de Festas)</h5>
+    <h5 class="calendar-tp-reservation-future" align="center" style="width: 20%; padding: 5px">TP = Tapiri</h5>
+    <h5 class="calendar-sf-reservation-future" align="center" style="width: 20%; padding: 5px">SF = Salão de Festas</h5>
+    <H5 class="calendar-tp-reservation-future" align="center" style="width: 20%; padding: 5px; background-color: #D1E200">Aguardando pagamento</h5>
 
     <div class="row">
       <div class="col-md-5 col-md-offset-1">
@@ -109,18 +110,30 @@
                 <strong>{{ day.day }}</strong>
                 <br>
                 {% if tp_reservation and day > today and day < maximum_reservation_date %}
-                    <p align="center" class="calendar-tp-reservation-future">
-                        {{ tp_reservation.spot }} - {{ tp_reservation.user.username }}
-                    </p>
+                    {% if tp_reservation.status == 'aguardando pagamento' %}
+                        <p align="center" class="calendar-tp-reservation-future" style="background-color: #D1E200">
+                            {{ tp_reservation.spot }} - {{ tp_reservation.user.username }}
+                        </p>
+                    {% else %}
+                        <p align="center" class="calendar-tp-reservation-future">
+                            {{ tp_reservation.spot }} - {{ tp_reservation.user.username }}
+                        </p>
+                    {% endif %}
                 {% elif tp_reservation %}
                     <p align="center" class="calendar-tp-reservation-past">
                         {{ tp_reservation.spot }} - {{ tp_reservation.user.username }}
                     </p>
                 {% endif %}
                 {% if sf_reservation and day > today and day < maximum_reservation_date %}
-                    <p align="center" class="calendar-sf-reservation-future">
-                        {{ sf_reservation.spot }} - {{ sf_reservation.user.username }}
-                    </p>
+                    {% if sf_reservation.status == 'aguardando pagamento' %}
+                         <p align="center" class="calendar-sf-reservation-future" style="background-color: #D1E200">
+                            {{ sf_reservation.spot }} - {{ sf_reservation.user.username }}
+                        </p>
+                    {% else %}
+                        <p align="center" class="calendar-sf-reservation-future">
+                            {{ sf_reservation.spot }} - {{ sf_reservation.user.username }}
+                        </p>
+                    {% endif %}
                 {% elif sf_reservation %}
                     <p align="center" class="calendar-sf-reservation-past">
                         {{ sf_reservation.spot }} - {{ sf_reservation.user.username }}

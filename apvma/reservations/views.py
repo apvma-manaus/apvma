@@ -68,7 +68,7 @@ def reservation_calendar(request, year, month):
             else:
                 reservation = form.save()
                 messages.success(request,
-                                 'Reserva agendada com sucesso. Caso o pagamento não seja realizado até amanhã, a reserva será expirada.')
+                                 'Reserva agendada com sucesso. Caso o pagamento não seja realizado em até 24 horas, a reserva será expirada.')
 
         if len(request.POST) == 3: # POST requesting cancel reservation
             reservation = Reservation.objects.get(pk=request.POST['cancel_reservation'])
