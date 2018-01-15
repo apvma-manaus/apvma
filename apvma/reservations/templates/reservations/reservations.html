@@ -52,7 +52,8 @@
                 {% endfor %}
             </select>
           </div>
-          <button type="submit" class="btn btn-primary">Cancelar reserva</button>
+          <button type="submit" class="btn btn-primary" name="cancel_reservation_button"
+                  onclick="setRequiredTrue(cancel_reservation); removeRequired(spot); removeRequired(date)">Cancelar reserva</button>
 
         </div>
         </div>
@@ -182,7 +183,8 @@
             </select>
           </div>
 
-          <button type="submit" class="btn btn-primary">Reservar</button>
+          <button type="submit" class="btn btn-primary" name="request_reservation_button"
+                  onclick="setRequiredTrue(spot); setRequiredTrue(date); removeRequired(cancel_reservation)">Reservar</button>
 
         </form>
 
@@ -194,7 +196,16 @@
 
     <script src="{% static 'js/django_csrf.js' %}"></script>
     <script src="{% static 'js/app.js' %}"></script>
-
+    <script language="JavaScript" type="text/javascript">
+        function setRequiredTrue(field)
+        {
+            field.setAttribute('required', 'true');
+        }
+        function removeRequired(field)
+        {
+            field.removeAttribute('required');
+        }
+    </script>
 
 {% endblock content %}
 

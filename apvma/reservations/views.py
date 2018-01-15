@@ -21,7 +21,7 @@ class ReservationViewSet(ModelViewSet):
 def reservations(request):
     selected_date = date.today()
     if request.method == 'POST':
-        if len(request.POST) == 4: # POST requesting new reservation
+        if 'request_reservation_button' in request.POST:
             form = ReservationForm(request.POST)
 
             if not form.is_valid():
@@ -34,13 +34,13 @@ def reservations(request):
             if check_reservation:
                 messages.warning(request, 'Já existe uma reserva para o local e data selecionados.')
             else:
-                reservation = form.save()
+                #reservation = form.save()
                 messages.success(request,
-                                 'Reserva agendada com sucesso. Caso o pagamento não seja realizado até amanhã, a reserva será expirada.')
+                                 'Reserva agendada com sucesso. Caso o pagamento não seja realizado em até 24 horas, a reserva será expirada.')
 
-        if len(request.POST) == 3: # POST requesting cancel reservation
+        if 'cancel_reservation_button' in request.POST:
             reservation = Reservation.objects.get(pk=request.POST['cancel_reservation'])
-            reservation.cancel()
+            #reservation.cancel()
 
             messages.success(request, 'Reserva cancelada com sucesso.')
 
