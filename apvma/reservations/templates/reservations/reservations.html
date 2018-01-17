@@ -44,19 +44,19 @@
           <input type="hidden" name="user" id="user" value="{{ request.user.pk }}">
 
           <div class="form-group">
-            <label for="spot">Cancelar reserva</label>
-            <select class="form-control" id="cancel_reservation" name="cancel_reservation">
+            <label for="spot" style="padding-top: 5px">Cancelar reserva</label> <br/>
+            <select class="form-control" style="width: 43%; display: inline-block" id="cancel_reservation" name="cancel_reservation">
                 <option disabled selected value>-----</option>
                 {% for reservation in my_valid_reservations %}
                     <option value="{{ reservation.pk }}">{{ reservation.date }} - {{ reservation.get_spot_display }}</option>
                 {% endfor %}
             </select>
-          </div>
-          <button type="submit" class="btn btn-primary" name="cancel_reservation_button"
+            <button type="submit" class="btn btn-primary" name="cancel_reservation_button"
                   onclick="setRequiredTrue(cancel_reservation); removeRequired(spot); removeRequired(date)">Cancelar reserva</button>
-
+          </div>
         </div>
         </div>
+         </form>
 
     {% else %}
         <p>Você não possui reservas agendadas.</p>
@@ -64,9 +64,11 @@
 
 
     <h3>Disponibilidade</h3>
-    <h5 class="calendar-tp-reservation-future" align="center" style="width: 20%; padding: 5px">TP = Tapiri</h5>
-    <h5 class="calendar-sf-reservation-future" align="center" style="width: 20%; padding: 5px">SF = Salão de Festas</h5>
-    <H5 class="calendar-tp-reservation-future" align="center" style="width: 20%; padding: 5px; background-color: #D1E200">Aguardando pagamento</h5>
+    <div align="center">
+    <h5 class="calendar-tp-reservation-future" align="center" style="display: inline-block; width: 20%; padding: 5px">TP = Tapiri</h5>
+    <h5 class="calendar-sf-reservation-future" align="center" style="display: inline-block; width: 20%; padding: 5px">SF = Salão de Festas</h5>
+    <H5 class="calendar-tp-reservation-future" align="center" style="display: inline-block; width: 30%; padding: 5px; background-color: #D1E200">Aguardando pagamento</h5>
+    </div>
 
     <div class="row">
       <div class="col-md-5 col-md-offset-1">
@@ -149,6 +151,8 @@
           </tbody>
 
         </table>
+      </div>
+    </div>
 
         {% if request.user.is_authenticated %}
         <h2>Faça sua reserva</h2>
@@ -158,18 +162,19 @@
 
           <input type="hidden" name="user" id="user" value="{{ request.user.pk }}">
 
-          <div class="form-group">
-            <label for="spot">Local</label>
-            <select class="form-control" id="spot" name="spot">
+          <div class="form-group" align="left">
+            <label for="spot" style="width: 25%; float: left; margin: 0 20px 0 0">
+                <span style="display: block; margin: 0 0 3px">Local</span>
+            <select class="form-control" id="spot" name="spot" style="width: 100%; display: inline-block">
                 <option disabled selected value>-----</option>
                 <option value="TP">Tapiri</option>
                 <option value="SF">Salão de Festas</option>
             </select>
-          </div>
+            </label>
 
-          <div class="form-group">
-            <label for="date">Data</label>
-            <select class="form-control" name="date" id="date">
+            <label for="date" style="width: 25%; float: left; margin: 0 20px 0 0">
+                <span style="display: block; margin: 0 0 3px">Data</span>
+            <select class="form-control" name="date" id="date" style="width: 100%; display: inline-block">
               <option disabled selected value>-----</option>
               {% for week in calendar %}
               {% for day, tp_reservation, sf_reservation in week %}
@@ -181,18 +186,19 @@
               {% endfor %}
               {% endfor %}
             </select>
-          </div>
+            </label>
 
-          <button type="submit" class="btn btn-primary" name="request_reservation_button"
+
+          <button type="submit" class="btn btn-primary" style="padding: 14px; width: 12%" name="request_reservation_button"
                   onclick="setRequiredTrue(spot); setRequiredTrue(date); removeRequired(cancel_reservation)">Reservar</button>
-
+          <br/>
+          <br/>
+          </div>
         </form>
 
         {% endif %}
 
 
-      </div><!-- end .col-md-10 -->
-    </div><!-- end .row -->
 
     <script src="{% static 'js/django_csrf.js' %}"></script>
     <script src="{% static 'js/app.js' %}"></script>
