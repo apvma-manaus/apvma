@@ -23,7 +23,7 @@ def reservations(request):
     if request.method == 'POST':
         if 'request_reservation_button' in request.POST:
             form = ReservationForm(request.POST)
-
+            #ipdb.set_trace()
             if not form.is_valid():
                 return HttpResponseRedirect(request.path)
 
