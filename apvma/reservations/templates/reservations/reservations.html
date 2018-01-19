@@ -67,7 +67,7 @@
     <div align="center">
     <h5 class="calendar-tp-reservation-future" align="center" style="display: inline-block; width: 20%; padding: 5px">TP = Tapiri</h5>
     <h5 class="calendar-sf-reservation-future" align="center" style="display: inline-block; width: 20%; padding: 5px">SF = Salão de Festas</h5>
-    <H5 class="calendar-tp-reservation-future" align="center" style="display: inline-block; width: 30%; padding: 5px; background-color: #D1E200">Aguardando pagamento</h5>
+    <H5 class="calendar-tp-reservation-future" align="center" style="display: inline-block; width: 20%; padding: 5px; background-color: #D1E200">Aguardando pagamento</h5>
     </div>
 
     <div class="row">
@@ -155,7 +155,7 @@
     </div>
 
         {% if request.user.is_authenticated %}
-        <h2>Faça sua reserva</h2>
+        <h3>Faça sua reserva</h3>
 
         <form action="." method="post">
         {% csrf_token %}
@@ -189,7 +189,7 @@
             </label>
 
 
-          <button type="submit" class="btn btn-primary" style="padding: 14px; width: 12%" name="request_reservation_button"
+          <button type="submit" class="btn btn-primary" style="padding: 13px; width: 12%" name="request_reservation_button"
                   onclick="setRequiredTrue(spot); setRequiredTrue(date); removeRequired(cancel_reservation)">Reservar</button>
           <br/>
           <br/>
