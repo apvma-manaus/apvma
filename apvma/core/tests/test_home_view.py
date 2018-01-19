@@ -28,8 +28,12 @@ class HomeViewLoggedTest(TestCase):
         expected = 'href="{}"'.format(r('reservations'))
         self.assertContains(self.resp, expected)
 
+    def test_html_has_apvma_image(self):
+        expected = '<img src="/static/img/apvma.png"'
+        self.assertContains(self.resp, expected)
 
-class HomeViewNotLoggedInTest(TestCase):
+
+class HomeViewNotLoggedTest(TestCase):
     def setUp(self):
         self.resp = self.client.get(r('home'))
 

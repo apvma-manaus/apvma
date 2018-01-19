@@ -19,3 +19,7 @@ class LogInViewTest(TestCase):
     def test_link_to_request_signup(self):
         expected = '<a href="/request_signup/"'
         self.assertContains(self.resp, expected)
+
+    def test_html_has_apvma_image(self):
+        expected = '<img src="/static/img/apvma.png"'
+        self.assertContains(self.resp, expected)
