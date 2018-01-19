@@ -10,7 +10,7 @@ class AccountabilityViewLoggedTest(TestCase):
     def setUp(self):
         User.objects.create_user(username='usuario', password='password')
         self.client.login(username='usuario', password='password')
-        Accountability.objects.create(date='2018-01-01', file='DEZ_2018.pdf')
+        self.accountability = Accountability.objects.create(date='2018-01-01', file='DEZ_2018.pdf')
         self.resp = self.client.get(r('accountability'))
 
     def test_get(self):
@@ -22,14 +22,9 @@ class AccountabilityViewLoggedTest(TestCase):
     def test_html(self):
         """Html must contain links to the accountabilities files"""
         with self.subTest():
-            expected = ['<a target="_blank" href=', 'DEZ_2018']
+            expected = ['2018/Janeiro', '<embed src="', self.accountability.file.url]
             for text in expected:
                 self.assertContains(self.resp, text)
-
-    # def test_accountability_order(self):
-    #     """Acconuts must appear from the most recent to the last recent"""
-    #     Accountability.objects.create(date='2017-11-01', file='OUT_2017.pdf')
-    #     accounts = Accountability.objects.all()
 
 
 class AccountabilityViewNotLoggedTest(TestCase):
