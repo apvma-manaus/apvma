@@ -1,6 +1,8 @@
-from datetime import datetime, timedelta
+from datetime import timedelta
 
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.core.validators import FileExtensionValidator
 from django.db import models
 from django.utils import timezone
 
@@ -87,3 +89,20 @@ class Reservation(models.Model):
             return 'expirada por falta de pagamento'
         else:
             return 'aguardando pagamento'
+
+
+class TermsOfUse(models.Model):
+    file = models.FileField(upload_to='reservations/termsofuse/',
+                            validators=[FileExtensionValidator(['pdf'], 'O sistema só permite o upload de arquivos PDF.')])
+    uploaded_on = models.DateTimeField('criado em', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Regras de Uso de Ambiente'
+        verbose_name_plural = verbose_name
+
+    def save(self, *args, **kwargs):
+        """It must exist only one file of Terms of Use"""
+        if TermsOfUse.objects.exists() and not self.pk:
+            raise ValidationError('Só pode existir 1 arquivo de Termos de Uso de Ambiente.')
+        self.uploaded_on = timezone.now()
+        return super(TermsOfUse, self).save(*args, **kwargs)

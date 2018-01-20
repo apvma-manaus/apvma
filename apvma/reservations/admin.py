@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.utils import timezone
 
-from apvma.reservations.models import Reservation
+from apvma.reservations.models import Reservation, TermsOfUse
 
 
 class WaitingforPayment(admin.SimpleListFilter):
@@ -36,4 +36,10 @@ class ReservationModelAdmin(admin.ModelAdmin):
     ordering = ('-date', 'spot')
 
 
+class TermsOfUseModelAdmin(admin.ModelAdmin):
+    list_display = ('uploaded_on', 'file')
+    fields = ('file',)
+
+
 admin.site.register(Reservation, ReservationModelAdmin)
+admin.site.register(TermsOfUse, TermsOfUseModelAdmin)

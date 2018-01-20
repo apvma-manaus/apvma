@@ -11,7 +11,7 @@ from django.test import TestCase
 from django.shortcuts import resolve_url as r
 from django.urls import reverse
 
-from apvma.reservations.models import Reservation
+from apvma.reservations.models import Reservation, TermsOfUse
 
 
 @freeze_time('2018-01-10')
@@ -185,6 +185,7 @@ class ReservationViewCalendar(TestCase):
         self.reservation = Reservation.objects.create(
             user=self.user, date='2018-01-21', spot='TP'
         )
+        self.terms_of_use = TermsOfUse.objects.create(file='TermsOfUse.pdf')
         self.resp = self.client.get(r('reservations'))
 
     def test_calendar_has_my_reservation(self):
@@ -211,6 +212,12 @@ class ReservationViewCalendar(TestCase):
             self.assertNotContains(self.resp, '<option value="2018-1-11"')
             self.assertContains(self.resp, '<option value="2018-1-12"')
 
+    def test_html_has_link_to_terms_of_use(self):
+        with self.subTest():
+            expected = ['termos de uso', '<embed src="', self.terms_of_use.file.url]
+            for text in expected:
+                self.assertContains(self.resp, text)
+
 
 @freeze_time('2018-01-10')
 class ReservationPostRequestReservation(TestCase):
@@ -226,3 +233,4 @@ class ReservationPostRequestReservation(TestCase):
     def test_request_succesfull(self):
         """Post request_reservation should create a new reservation object"""
         self.assertTrue(Reservation.objects.exists())
+

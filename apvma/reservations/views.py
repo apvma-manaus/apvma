@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from rest_framework.viewsets import ModelViewSet
 
 from apvma.reservations.forms import ReservationForm
-from apvma.reservations.models import Reservation
+from apvma.reservations.models import Reservation, TermsOfUse
 from apvma.reservations.serializer import ReservationSerializer
 
 
@@ -90,6 +90,7 @@ def reservation_calendar(request, year, month):
         reservations = Reservation.valid_reservations.all()
         today = date.today()
         maximum_reservation_date = today + timedelta(days=90)
+        terms_of_use = TermsOfUse.objects.last()
 
         context = {
             'my_reservations': my_reservations,
@@ -101,7 +102,8 @@ def reservation_calendar(request, year, month):
             'previous': selected_date - timedelta(days=1),
             'today': today,
             'minimum_reservation_date': today + timedelta(days=1),
-            'maximum_reservation_date': maximum_reservation_date
+            'maximum_reservation_date': maximum_reservation_date,
+            'terms_of_use': terms_of_use
         }
 
         return render(request, 'reservations/reservations.html', context)

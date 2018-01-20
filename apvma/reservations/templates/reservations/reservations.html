@@ -52,7 +52,7 @@
                 {% endfor %}
             </select>
             <button type="submit" class="btn btn-primary" name="cancel_reservation_button"
-                  onclick="setRequiredTrue(cancel_reservation); removeRequired(spot); removeRequired(date)">Cancelar reserva</button>
+                  onclick="setRequiredTrue(cancel_reservation); removeRequired(spot); removeRequired(date); removeRequired(terms_of_use)">Cancelar reserva</button>
           </div>
         </div>
         </div>
@@ -190,14 +190,35 @@
 
 
           <button type="submit" class="btn btn-primary" style="padding: 13px; width: 12%" name="request_reservation_button"
-                  onclick="setRequiredTrue(spot); setRequiredTrue(date); removeRequired(cancel_reservation)">Reservar</button>
+                  onclick="setRequiredTrue(spot); setRequiredTrue(date); setRequiredTrue(terms_of_use); removeRequired(cancel_reservation)">Reservar</button>
+
+          <br/>
+          <div style="padding-top: 3px">
+          <input type="checkbox" name="terms_of_use" id="terms_of_use">
+              <label for="terms_of_use">Estou de acordo com os <a data-toggle="modal" href="#termsofuse">termos de uso</a>.</label>
+          </div>
           <br/>
           <br/>
           </div>
         </form>
 
-        {% endif %}
+            <div class="container">
+              <div id="termsofuse" class="modal fade" role="dialog" style="padding-top: 220px">
+                  <div class="modal-dialog" style="max-width: 100%; width: 95%">
 
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          </div>
+                          <div class="modal-body" style="height: 900px">
+                              <embed src="{{ terms_of_use.file.url }}" frameborder="0" height="100%" width="100%"></embed>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              </div>
+
+        {% endif %}
 
 
     <script src="{% static 'js/django_csrf.js' %}"></script>
@@ -214,6 +235,3 @@
     </script>
 
 {% endblock content %}
-
-
-{# TODO: layout de Faça a sua reserva #}
