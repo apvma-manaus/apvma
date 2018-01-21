@@ -1,6 +1,5 @@
 from datetime import datetime
 
-import ipdb
 from django.utils import timezone
 from freezegun import freeze_time
 
@@ -19,7 +18,7 @@ class ReservationViewLoggedTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='bruno', password='1234')
         self.client.login(username='bruno', password='1234')
-        self.resp = self.client.get(r('reservations'))
+        self.resp = self.client.get(r('reservation_calendar', 2018, 1))
 
     def test_get(self):
         self.assertEqual(200, self.resp.status_code)
@@ -63,11 +62,11 @@ class ReservationViewLoggedTest(TestCase):
 
 class ResevationViewNotLoggedTest(TestCase):
     def setUp(self):
-        self.resp = self.client.get(r('reservations'))
+        self.resp = self.client.get(r('reservation_calendar', 2018, 1))
 
     def test_redirect(self):
         url = r('login')
-        self.assertRedirects(self.resp, '{}?next={}'.format(url, reverse('reservations')))
+        self.assertRedirects(self.resp, '{}?next={}'.format(url, reverse('reservation_calendar', kwargs={'year': 2018, 'month': 1})))
 
 
 @freeze_time('2018-01-10')
@@ -78,7 +77,7 @@ class ReservartionViewMyReservations(TestCase):
         self.reservation = Reservation.objects.create(
             user=self.user, date='2018-01-21', spot='TP'
         )
-        self.resp = self.client.get(r('reservations'))
+        self.resp = self.client.get(r('reservation_calendar', 2018, 1))
 
     def test_context(self):
         reservation = self.resp.context['reservations'][0]
@@ -100,7 +99,7 @@ class ReservartionViewMyReservations(TestCase):
         reservation = Reservation.objects.create(
             user=self.user, date='2018-01-09', spot='TP'
         )
-        resp = self.client.get(r('reservations'))
+        resp = self.client.get(r('reservation_calendar', 2018, 1))
         not_expected = ['09 de Janeiro de 2018', 'Terça-feira']
         with self.subTest():
             for text in not_expected:
@@ -109,7 +108,7 @@ class ReservartionViewMyReservations(TestCase):
     def test_reservation_paid(self):
         self.reservation.paid = True
         self.reservation.save()
-        resp = self.client.get(r('reservations'))
+        resp = self.client.get(r('reservation_calendar', 2018, 1))
         expected = 'confirmada'
         self.assertContains(resp, expected)
 
@@ -120,7 +119,7 @@ class ReservartionViewMyReservations(TestCase):
         reservation2.canceled = True
         reservation2.canceled_on = timezone.now()
         reservation2.save()
-        resp = self.client.get(r('reservations'))
+        resp = self.client.get(r('reservation_calendar', 2018, 1))
         expected = 'cancelada em 10/01/2018'
         self.assertContains(resp, expected)
 
@@ -132,7 +131,7 @@ class ReservartionViewMyReservations(TestCase):
         reservation3.created_on = datetime(2018, 1, 7, 12, 0, 0, tzinfo=pytz.UTC)
         reservation3.expires_on = datetime(2018, 1, 8, 12, 0, 0, tzinfo=pytz.UTC)
         reservation3.save()
-        resp = self.client.get(r('reservations'))
+        resp = self.client.get(r('reservation_calendar', 2018, 1))
         expected = 'expirada por falta de pagamento'
         self.assertContains(resp, expected)
 
@@ -145,7 +144,7 @@ class ReservartionViewMyReservations(TestCase):
         reservation4.expires_on = datetime(2018, 1, 8, 12, 0, 0, tzinfo=pytz.UTC)
         reservation4.paid = True
         reservation4.save()
-        resp = self.client.get(r('reservations'))
+        resp = self.client.get(r('reservation_calendar', 2018, 1))
         expected = 'confirmada'
         self.assertContains(resp, expected)
 
@@ -166,10 +165,10 @@ class ReservationPostCancelMyReservation(TestCase):
             user=self.user, date='2018-01-21', spot='TP'
         )
         self.data = dict(cancel_reservation_button='', cancel_reservation=self.reservation.pk)
-        self.resp = self.client.post('/reservations/', self.data)
+        self.resp = self.client.post(r('reservation_calendar', 2018, 1), self.data)
 
     def test_redirects(self):
-        self.assertRedirects(self.resp, r('reservations'))
+        self.assertRedirects(self.resp, r('reservation_calendar', 2018, 1))
 
     def test_reservation_canceled(self):
         """Post cancel reservation should cancel the selected reservation"""
@@ -186,7 +185,7 @@ class ReservationViewCalendar(TestCase):
             user=self.user, date='2018-01-21', spot='TP'
         )
         self.terms_of_use = TermsOfUse.objects.create(file='TermsOfUse.pdf')
-        self.resp = self.client.get(r('reservations'))
+        self.resp = self.client.get(r('reservation_calendar', 2018, 1))
 
     def test_calendar_has_my_reservation(self):
         self.assertContains(self.resp, 'TP - bruno')
@@ -197,13 +196,13 @@ class ReservationViewCalendar(TestCase):
         reservation = Reservation.objects.create(
             user=other_user, date='2018-01-25', spot='TP'
         )
-        self.resp = self.client.get(r('reservations'))
+        self.resp = self.client.get(r('reservation_calendar', 2018, 1))
         self.assertContains(self.resp, 'TP - henrique')
 
     def test_calendar_dont_have_canceled_reservations(self):
         """Calendar should not show canceled reservations"""
         self.reservation.cancel()
-        self.resp = self.client.get(r('reservations'))
+        self.resp = self.client.get(r('reservation_calendar', 2018, 1))
         self.assertNotContains(self.resp, 'TP - bruno')
 
     def test_form_dont_have_past_days(self):
@@ -225,10 +224,10 @@ class ReservationPostRequestReservation(TestCase):
         self.user = User.objects.create_user(username='bruno', password='1234')
         self.client.login(username='bruno', password='1234')
         self.data = dict(request_reservation_button='', user=self.user.pk, spot='TP', date='2018-01-30')
-        self.resp = self.client.post(r('reservations'), self.data)
+        self.resp = self.client.post(r('reservation_calendar', 2018, 1), self.data)
 
     def test_redirects(self):
-        self.assertRedirects(self.resp, r('reservations'))
+        self.assertRedirects(self.resp, r('reservation_calendar', 2018, 1))
 
     def test_request_succesfull(self):
         """Post request_reservation should create a new reservation object"""

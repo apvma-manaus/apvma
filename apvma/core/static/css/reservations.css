@@ -16,6 +16,15 @@
     padding: 10px;
 }
 
+.calendar-message-info {
+    align-content: center;
+    width: 100%;
+    color: black;
+    border-radius: 5px;
+    background-color: #FFBB33; /* orange */
+    padding: 10px;
+}
+
 .calendar-tp-reservation-future {
     color: white;
     border-radius: 5px;

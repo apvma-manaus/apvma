@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.contrib.auth.models import User
 from django.test import TestCase
 from django.shortcuts import resolve_url as r
@@ -25,7 +27,9 @@ class HomeViewLoggedTest(TestCase):
         self.assertContains(self.resp, expected)
 
     def test_link_to_reservations(self):
-        expected = 'href="{}"'.format(r('reservations'))
+        year = datetime.now().year
+        month = datetime.now().month
+        expected = 'href="{}"'.format(r('reservation_calendar', year, month))
         self.assertContains(self.resp, expected)
 
     def test_html_has_apvma_image(self):
