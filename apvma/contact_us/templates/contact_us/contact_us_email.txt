@@ -1,0 +1,8 @@
+Apartamento: {{ user }}
+
+Permissionário: {{ resident }}
+
+
+Mensagem:
+
+{{ form.content }}

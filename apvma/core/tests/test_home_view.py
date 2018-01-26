@@ -22,6 +22,10 @@ class HomeViewLoggedTest(TestCase):
         expected = 'href="/settings/password/"'
         self.assertContains(self.resp, expected)
 
+    def test_html_has_apvma_image(self):
+        expected = '<img src="/static/img/apvma.png"'
+        self.assertContains(self.resp, expected)
+
     def test_link_to_accountability(self):
         expected = 'href="{}"'.format(r('accountability'))
         self.assertContains(self.resp, expected)
@@ -32,8 +36,8 @@ class HomeViewLoggedTest(TestCase):
         expected = 'href="{}"'.format(r('reservation_calendar', year, month))
         self.assertContains(self.resp, expected)
 
-    def test_html_has_apvma_image(self):
-        expected = '<img src="/static/img/apvma.png"'
+    def test_link_to_contact_us(self):
+        expected = 'href="{}"'.format(r('contact_us'))
         self.assertContains(self.resp, expected)
 
 

@@ -1,0 +1,20 @@
+#menu {
+    padding: 2%;
+    border: 7px solid gray;
+    border-radius: 3%;
+    box-shadow: 5px 7px 10px 2px black;
+    background-color: #35a72852;
+    margin: 40px;
+    height: 200px;
+    width: 200px;
+    display: table-cell;
+    vertical-align: middle;
+    font-size: larger;
+    text-decoration: none;
+    color: black;
+}
+
+#menu:hover {
+    background-color: #95CD82;
+    color: white;
+}

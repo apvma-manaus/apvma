@@ -66,8 +66,10 @@ urlpatterns = [
     # reservations urls
     path('reservations/', include('apvma.reservations.urls')),
 
-
     # reservation calendar api
     path('api/', include(router.urls)),
-    path('auth/', include('rest_framework.urls'))
+    path('auth/', include('rest_framework.urls')),
+
+    # contact_us urls
+    path('contact_us', include('apvma.contact_us.urls'))
 ]

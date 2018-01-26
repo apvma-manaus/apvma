@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+    <link rel="stylesheet" href="{% static 'css/contact_us.css' %}">
+{% endblock stylesheet %}
+
+
+{% block content %}
+    <section>
+        {% if messages %}
+        {% for message in messages %}
+            <div class="container" align="center">
+                <p class="message-{{ message.tags }}">{{ message }}</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+
+        <div class="container" align="center">
+            <form action="{% url 'contact_us' %}" method="post">
+                {% csrf_token %}
+                {{ form.non_field_errors}}
+
+                <div class="form-row label-block input-text">
+                    <p>Escreva abaixo a sua sugestão, dúvida, reclamação ou elogio.</p>
+                    <div class="container-fluid">
+                        {{ form.content.errors }}
+                        {{ form.content }}
+                    </div>
+                </div>
+
+                <div>
+                    <button type="submit" class="btn btn-primary">Enviar!</button>
+                </div>
+
+            </form>
+        </div>
+    </section>
+{% endblock content %}

@@ -1,35 +1,21 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block stylesheet %}
-    <style>
-
-    #title {
-        width: 40%;
-        height: 200px;
-        padding: 5%;
-        border: 10px solid gray;
-        margin: 0 10% 0 10%;
-        border-radius: 3%;
-        box-shadow: 5px 7px 10px 2px black;
-        background-color: #35a72852;
-    }
-
-    </style>
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
 {% endblock %}
 
 {% block content %}
-    <br>
-
+    <section>
     <div class="container">
-        <div class="row">
-            <div class="col" align="center" id="title">
-                <h3><a href="/accountability/">Prestação de Contas</a></h3>
-            </div>
+        <div class="row justify-content-md-center">
+                <a class="text-center" id="menu" href="/accountability/">Prestação de Contas</a>
 
-            <div class="col" align="center" id="title">
-                <h3><a href="/reservations/{% now "Y/n" %}/">Reserva de Ambiente</a></h3>
-            </div>
+                <a class="text-center" id="menu" href="/reservations/{% now "Y/n" %}/">Reserva de Ambiente</a>
+
+                <a class="text-center" id="menu" href="/contact_us">Fale conosco</a>
         </div>
     </div>
+    </section>
 
 {% endblock content %}
