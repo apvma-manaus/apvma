@@ -18,18 +18,28 @@ def contact_us(request):
         if not form.is_valid():
             return render(request, 'contact_us/contact_us.html', {'form': form})
 
-        user = request.user
-        resident = Resident.objects.get(apartment__user=user)
-        email_to = resident.email
+        import ipdb
+        #ipdb.set_trace()
+        if form.cleaned_data['identify'] == '1':
+            user = request.user
+            resident = Resident.objects.get(apartment__user=user)
+            email_from = resident.email
+            msg = 'Obrigado por entrar em contato conosco e nos ajudar a trazer melhorias para a nossa vila.'
+        else:
+            user = 'Mensagem anônima'
+            resident = 'Mensagem anônima'
+            email_from = settings.DEFAULT_APVMA_EMAIL
+            msg = 'Obrigado por entrar em contato conosco e nos ajudar a trazer melhorias para a nossa vila. \n' \
+                  'Não se preocupe, a mensagem foi enviada como anônima e você não será identificado.'
 
         # Send email
         _send_mail('Mensagem do "Entre em contato conosco"',
-                   email_to,
+                   email_from,
                    settings.DEFAULT_APVMA_EMAIL,
                    'contact_us/contact_us_email.txt',
                    {'form': form.cleaned_data, 'user': user, 'resident': resident})
 
-        messages.success(request, 'Obrigado por entrar em contato conosco e nos ajudar a trazer melhorias para a nossa vila.')
+        messages.success(request, msg)
         return HttpResponseRedirect(r('contact_us'))
 
     context = {'form': ContactUsForm()}

@@ -31,5 +31,9 @@ textarea {
 .container-fluid {
     margin-top: -1%;
     margin-bottom: 1%;
-    height: 500px;
+    height: 450px;
+}
+
+.identification_option ul {
+    list-style: none;
 }

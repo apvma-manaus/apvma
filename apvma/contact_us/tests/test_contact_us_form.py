@@ -7,5 +7,5 @@ class ContactUsFormTests(TestCase):
     def test_form_has_fields(self):
         """form must have 1 field: content"""
         form = ContactUsForm()
-        expected = ['content']
+        expected = ['content', 'identify']
         self.assertEqual(expected, list(form.fields))

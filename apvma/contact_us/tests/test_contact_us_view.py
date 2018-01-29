@@ -33,7 +33,8 @@ class ContactUsViewLoggedTests(TestCase):
     def test_html(self):
         """Html must contain input tags"""
         tags = (('<form', 1),
-                ('<input', 1),
+                ("<input type='hidden'", 1),
+                ('<input type="radio"', 2),
                 ('<textarea', 1), # area to write the content
                 ('type="submit"', 1)) # button to submit
 
