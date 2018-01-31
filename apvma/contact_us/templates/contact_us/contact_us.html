@@ -18,7 +18,7 @@
 
 
         <div class="container" align="center">
-            <form action="{% url 'contact_us' %}" method="post">
+            <form action="{% url 'contact_us' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {{ form.non_field_errors}}
 
@@ -28,6 +28,10 @@
                         {{ form.content.errors }}
                         {{ form.content }}
                     </div>
+                </div>
+
+                <div id="upload_file">
+                    <p>Deseja enviar um arquivo (tamanho máximo 10MB)?</p> {{ form.file }}
                 </div>
 
                 <div class="identification_option" align="left">

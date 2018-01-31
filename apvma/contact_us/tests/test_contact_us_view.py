@@ -49,3 +49,5 @@ class ContactUsViewLoggedTests(TestCase):
     def test_has_form(self):
         """Context must have ContactUsForm form"""
         self.assertIsInstance(self.form, ContactUsForm)
+
+

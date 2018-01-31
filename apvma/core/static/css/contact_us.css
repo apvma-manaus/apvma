@@ -34,6 +34,11 @@ textarea {
     height: 450px;
 }
 
+#upload_file p {
+    font-size: 14px;
+    display: inline-block;
+}
+
 .identification_option ul {
     list-style: none;
 }

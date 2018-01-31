@@ -27,7 +27,7 @@ router = routers.DefaultRouter()
 router.register(r'reservations', ReservationViewSet)
 
 urlpatterns = [
-    path('home', home, name='home'),
+    path('home/', home, name='home'),
     path('admin/', admin.site.urls),
     path('', RedirectView.as_view(pattern_name='login', permanent=False), name='index'),
 

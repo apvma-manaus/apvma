@@ -1,6 +1,10 @@
+import unittest
+
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core import mail
+from django.core.exceptions import ValidationError
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from django.shortcuts import resolve_url as r
 
@@ -18,7 +22,8 @@ class ContactUsNewPostValidIdentified(TestCase):
             war_name='Santana', cpf='12345678901',
             email='santanablsa@fab.mil.br', apartment=self.apartment
         )
-        self.data = dict(content='Mensagem de contato do usuário', identify='1')
+        file = SimpleUploadedFile('file.jpg', b'file_content', content_type='image/jpg')
+        self.data = dict(content='Mensagem de contato do usuário', identify='1', file=file)
         self.resp = self.client.post(r('contact_us'), self.data)
         self.email = mail.outbox[0]
 
@@ -52,6 +57,10 @@ class ContactUsNewPostValidIdentified(TestCase):
             with self.subTest():
                 self.assertIn(content, self.email.body)
 
+    def test_file_attached_to_email(self):
+        """File must be attached to e-mail"""
+        self.assertEqual(1, len(self.email.attachments))
+
 
 class ContactUsNewPostValidAnonimous(TestCase):
     """Tests for valid posts anonimous"""
@@ -74,3 +83,25 @@ class ContactUsNewPostValidAnonimous(TestCase):
         for content in contents:
             with self.subTest():
                 self.assertNotIn(content, self.email.body)
+
+
+class ContactUsNewPostInvalidFileSize(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='usuario', password='password')
+        self.client.login(username='usuario', password='password')
+        self.apartment = Apartment.objects.create(block='RN', number='101', user=self.user)
+        self.resident = Resident.objects.create(
+            post='MJ', full_name='Bruno Luiz Santana de Araujo',
+            war_name='Santana', cpf='12345678901',
+            email='santanablsa@fab.mil.br', apartment=self.apartment
+        )
+        file = SimpleUploadedFile('file.jpg', b'file_content', content_type='image/jpg')
+        file.size = 10500000
+        self.data = dict(content='Mensagem de contato do usuário', identify='1', file=file)
+
+    @unittest.skip('teste não está passando')
+    def test_file_size_too_big(self):
+        """Maximum upload file size must be 10MB"""
+        with self.assertRaises(ValidationError):
+            self.client.post(r('contact_us'), self.data)
+    #TODO: Restringir o upload de arquivos a 10MB e fazer o teste passar

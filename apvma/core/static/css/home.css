@@ -1,5 +1,6 @@
-#menu {
+.menu {
     padding: 2%;
+    padding-top: 56px;
     border: 7px solid gray;
     border-radius: 3%;
     box-shadow: 5px 7px 10px 2px black;
@@ -14,7 +15,11 @@
     color: black;
 }
 
-#menu:hover {
+.menu:hover {
     background-color: #95CD82;
     color: white;
+}
+
+#menu3 {
+    padding-top: 70px;
 }

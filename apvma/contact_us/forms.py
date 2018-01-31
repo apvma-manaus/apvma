@@ -7,3 +7,7 @@ class ContactUsForm(forms.Form):
 
     content = forms.CharField(widget=forms.Textarea)
     identify = forms.ChoiceField(widget=forms.RadioSelect, choices=CHOICES)
+    file = forms.FileField(label='Tamanho máximo: 10MB',
+                           widget=forms.FileInput(attrs={'accept':'image/*,video/*'}),
+                           required=False)
+
