@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, date
 
 from django.contrib import messages
 from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import render, resolve_url as r
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from rest_framework.viewsets import ModelViewSet
 
@@ -22,12 +22,21 @@ def request_reservation(request):
     if not form.is_valid():
         return HttpResponseRedirect(request.path)
 
+    user = request.user
+    date = form.cleaned_data['date']
+    spot = form.cleaned_data['spot']
+
     check_reservation = Reservation.valid_reservations.filter(
-        date=request.POST['date'], spot=request.POST['spot']
+        date=date, spot=spot
     )
+
+    month = date.month
+    second_reservation_same_month = Reservation.valid_reservations.filter(user=user, date__month=month, spot=spot)
 
     if check_reservation:
         messages.warning(request, 'Já existe uma reserva para o local e data selecionados.')
+    elif second_reservation_same_month:
+        messages.warning(request, 'As regras de uso só permitem 1 reserva de cada ambiente por mês por permissionário.')
     else:
         reservation = form.save()
         messages.info(request,

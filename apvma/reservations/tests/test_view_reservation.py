@@ -1,3 +1,4 @@
+import unittest
 from datetime import datetime
 
 from django.utils import timezone
@@ -233,3 +234,8 @@ class ReservationPostRequestReservation(TestCase):
         """Post request_reservation should create a new reservation object"""
         self.assertTrue(Reservation.objects.exists())
 
+    @unittest.skip('precisa escrever esse teste')
+    def test_only_one_reservation_per_month(self):
+        data = dict(request_reservation_button='', user=self.user.pk, spot='TP', date='2018-01-20')
+        resp = self.client.post(r('reservation_calendar', 2018, 1), data)
+    #TODO: criar testes para as mensagens. Já funciona no sistema, mas precisa dos testes
