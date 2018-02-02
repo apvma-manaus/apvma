@@ -4,9 +4,10 @@ from datetime import datetime, timedelta, date
 from django.contrib import messages
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from rest_framework.viewsets import ModelViewSet
 
+from apvma.core.user_passes_tests import in_resident_group
 from apvma.reservations.forms import ReservationForm
 from apvma.reservations.models import Reservation, TermsOfUse
 from apvma.reservations.serializer import ReservationSerializer
@@ -51,6 +52,7 @@ def cancel_reservation(request):
 
 
 @login_required
+@user_passes_test(in_resident_group, login_url='/home/')
 def reservation_calendar(request, year, month):
     if request.method == 'POST':
         if 'request_reservation_button' in request.POST:

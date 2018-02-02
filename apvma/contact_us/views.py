@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.mail import EmailMessage
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, resolve_url as r
@@ -8,9 +8,11 @@ from django.template.loader import render_to_string
 
 from apvma.contact_us.forms import ContactUsForm
 from apvma.core.models import Resident
+from apvma.core.user_passes_tests import in_resident_group
 
 
 @login_required
+@user_passes_test(in_resident_group, login_url='/home/')
 def contact_us(request):
     if request.method == 'POST':
         form = ContactUsForm(request.POST)

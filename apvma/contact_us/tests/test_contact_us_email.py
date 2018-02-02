@@ -1,7 +1,7 @@
 import unittest
 
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.core import mail
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
@@ -15,6 +15,9 @@ class ContactUsNewPostValidIdentified(TestCase):
     """Tests for valid posts identified"""
     def setUp(self):
         self.user = User.objects.create_user(username='usuario', password='password')
+        self.group = Group.objects.create(name='permissionários')
+        self.user.groups.add(self.group)
+        self.user.save()
         self.client.login(username='usuario', password='password')
         self.apartment = Apartment.objects.create(block='RN', number='101', user=self.user)
         self.resident = Resident.objects.create(
@@ -66,6 +69,9 @@ class ContactUsNewPostValidAnonimous(TestCase):
     """Tests for valid posts anonimous"""
     def setUp(self):
         self.user = User.objects.create_user(username='usuario', password='password')
+        self.group = Group.objects.create(name='permissionários')
+        self.user.groups.add(self.group)
+        self.user.save()
         self.client.login(username='usuario', password='password')
         self.apartment = Apartment.objects.create(block='RN', number='101', user=self.user)
         self.resident = Resident.objects.create(
@@ -88,6 +94,9 @@ class ContactUsNewPostValidAnonimous(TestCase):
 class ContactUsNewPostInvalidFileSize(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='usuario', password='password')
+        self.group = Group.objects.create(name='permissionários')
+        self.user.groups.add(self.group)
+        self.user.save()
         self.client.login(username='usuario', password='password')
         self.apartment = Apartment.objects.create(block='RN', number='101', user=self.user)
         self.resident = Resident.objects.create(

@@ -6,7 +6,7 @@ from freezegun import freeze_time
 
 
 import pytz
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.test import TestCase
 from django.shortcuts import resolve_url as r
 from django.urls import reverse
@@ -14,10 +14,37 @@ from django.urls import reverse
 from apvma.reservations.models import Reservation, TermsOfUse
 
 
+class ResevationViewNotLoggedTest(TestCase):
+    def setUp(self):
+        self.resp = self.client.get(r('reservation_calendar', 2018, 1))
+
+    def test_redirect(self):
+        url = r('login')
+        self.assertRedirects(self.resp, '{}?next={}'.format(url, reverse('reservation_calendar', kwargs={'year': 2018, 'month': 1})))
+
+
+@freeze_time('2018-01-10')
+class ReservationViewPermissionTests(TestCase):
+    """Tests for reservation view permissions"""
+    def setUp(self):
+        self.user = User.objects.create_user(username='bruno', password='1234')
+        self.client.login(username='bruno', password='1234')
+
+    def test_not_in_resident_group_no_access(self):
+        """users not in 'permissionários' group should not access the reservations view"""
+        resp = self.client.get(r('reservation_calendar', 2018, 1))
+        url = r('home')
+        self.assertRedirects(resp, '{}?next={}'.format(url, reverse('reservation_calendar',
+                                                                         kwargs={'year': 2018, 'month': 1})))
+
+
 @freeze_time('2018-01-10')
 class ReservationViewLoggedTest(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='bruno', password='1234')
+        self.group = Group.objects.create(name='permissionários')
+        self.user.groups.add(self.group)
+        self.user.save()
         self.client.login(username='bruno', password='1234')
         self.resp = self.client.get(r('reservation_calendar', 2018, 1))
 
@@ -61,19 +88,13 @@ class ReservationViewLoggedTest(TestCase):
                 self.assertContains(self.resp, link)
 
 
-class ResevationViewNotLoggedTest(TestCase):
-    def setUp(self):
-        self.resp = self.client.get(r('reservation_calendar', 2018, 1))
-
-    def test_redirect(self):
-        url = r('login')
-        self.assertRedirects(self.resp, '{}?next={}'.format(url, reverse('reservation_calendar', kwargs={'year': 2018, 'month': 1})))
-
-
 @freeze_time('2018-01-10')
 class ReservartionViewMyReservations(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='bruno', password='1234')
+        self.group = Group.objects.create(name='permissionários')
+        self.user.groups.add(self.group)
+        self.user.save()
         self.client.login(username='bruno', password='1234')
         self.reservation = Reservation.objects.create(
             user=self.user, date='2018-01-21', spot='TP'
@@ -161,6 +182,9 @@ class ReservartionViewMyReservations(TestCase):
 class ReservationPostCancelMyReservation(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='bruno', password='1234')
+        self.group = Group.objects.create(name='permissionários')
+        self.user.groups.add(self.group)
+        self.user.save()
         self.client.login(username='bruno', password='1234')
         self.reservation = Reservation.objects.create(
             user=self.user, date='2018-01-21', spot='TP'
@@ -181,6 +205,9 @@ class ReservationPostCancelMyReservation(TestCase):
 class ReservationViewCalendar(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='bruno', password='1234')
+        self.group = Group.objects.create(name='permissionários')
+        self.user.groups.add(self.group)
+        self.user.save()
         self.client.login(username='bruno', password='1234')
         self.reservation = Reservation.objects.create(
             user=self.user, date='2018-01-21', spot='TP'
@@ -223,6 +250,9 @@ class ReservationViewCalendar(TestCase):
 class ReservationPostRequestReservation(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='bruno', password='1234')
+        self.group = Group.objects.create(name='permissionários')
+        self.user.groups.add(self.group)
+        self.user.save()
         self.client.login(username='bruno', password='1234')
         self.data = dict(request_reservation_button='', user=self.user.pk, spot='TP', date='2018-01-30')
         self.resp = self.client.post(r('reservation_calendar', 2018, 1), self.data)
@@ -239,3 +269,4 @@ class ReservationPostRequestReservation(TestCase):
         data = dict(request_reservation_button='', user=self.user.pk, spot='TP', date='2018-01-20')
         resp = self.client.post(r('reservation_calendar', 2018, 1), data)
     #TODO: criar testes para as mensagens. Já funciona no sistema, mas precisa dos testes
+

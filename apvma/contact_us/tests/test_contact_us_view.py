@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.core import mail
 from django.test import TestCase
 from django.shortcuts import resolve_url as r
@@ -17,9 +17,25 @@ class ContactUsViewNotLoggedTests(TestCase):
         self.assertRedirects(self.resp, '{}?next={}'.format(url, reverse('contact_us')))
 
 
+class ContactUsPermissionTests(TestCase):
+    """Tests for contact_us view permissions"""
+    def setUp(self):
+        self.user = User.objects.create_user(username='usuario', password='password')
+        self.client.login(username='usuario', password='password')
+        self.resp = self.client.get(r('contact_us'))
+
+    def test_not_in_resident_group_no_access(self):
+        """users not in 'permissionários' group should not access the reservations view"""
+        url = r('home')
+        self.assertRedirects(self.resp, '{}?next={}'.format(url, reverse('contact_us')))
+
+
 class ContactUsViewLoggedTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='usuario', password='password')
+        self.group = Group.objects.create(name='permissionários')
+        self.user.groups.add(self.group)
+        self.user.save()
         self.client.login(username='usuario', password='password')
         self.resp = self.client.get(r('contact_us'))
         self.form = self.resp.context['form']
