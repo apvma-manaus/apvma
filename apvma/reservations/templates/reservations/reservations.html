@@ -51,7 +51,7 @@
                     <option value="{{ reservation.pk }}">{{ reservation.date }} - {{ reservation.get_spot_display }}</option>
                 {% endfor %}
             </select>
-            <button type="submit" class="btn btn-primary" name="cancel_reservation_button"
+            <button type="submit" class="btn btn-primary" name="cancel_reservation_button" id="cancel_reservation_button"
                   onclick="setRequiredTrue(cancel_reservation); removeRequired(spot); removeRequired(date); removeRequired(terms_of_use)">Cancelar reserva</button>
           </div>
         </div>
@@ -63,7 +63,7 @@
     {% endif %}
 
 
-    <h3>Disponibilidade</h3>
+    <h3 id="disponibility">Disponibilidade</h3>
     <div align="center">
     <h5 class="calendar-tp-reservation-future" align="center" style="display: inline-block; width: 20%; padding: 5px">TP = Tapiri</h5>
     <h5 class="calendar-sf-reservation-future" align="center" style="display: inline-block; width: 20%; padding: 5px">SF = Salão de Festas</h5>
@@ -189,7 +189,7 @@
             </label>
 
 
-          <button type="submit" class="btn btn-primary" style="padding: 13px; width: 12%" name="request_reservation_button"
+          <button type="submit" class="btn btn-primary" name="request_reservation_button" id="request_reservation_button"
                   onclick="setRequiredTrue(spot); setRequiredTrue(date); setRequiredTrue(terms_of_use); removeRequired(cancel_reservation)">Reservar</button>
 
           <br/>

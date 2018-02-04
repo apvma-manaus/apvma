@@ -9,6 +9,26 @@
     <section>
     <div class="container">
         <div class="row justify-content-md-center">
+            <a class="text-center menu" id="internal_regiment" data-toggle="modal" href="#internal_regiment_modal">Regimento Interno</a>
+        </div>
+
+        <div class="container">
+            <div id="internal_regiment_modal" class="modal fade" role="dialog">
+                <div class="modal-dialog" style="max-width: 100%; width: 95%">
+
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      </div>
+                      <div class="modal-body" style="height: 850px">
+                          <embed src="{{ internal_regiment.file.url }}" frameborder="0" height="100%" width="100%"></embed>
+                      </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-md-center">
             <a class="text-center menu" id="menu1" href="/accountability/">Prestação de Contas</a>
 
             <a class="text-center menu" id="menu2" href="/reservations/{% now "Y/n" %}/">Reserva de Ambiente</a>

@@ -5,11 +5,14 @@ from django.test import TestCase
 from django.shortcuts import resolve_url as r
 from django.urls import reverse
 
+from apvma.core.models import InternalRegiment
+
 
 class HomeViewLoggedTest(TestCase):
     def setUp(self):
         User.objects.create_user(username='bruno', password='1234')
         self.client.login(username='bruno', password='1234')
+        self.internal_regiment = InternalRegiment.objects.create(file='regimento_interno.pdf')
         self.resp = self.client.get(r('home'))
 
     def test_get(self):
@@ -25,6 +28,13 @@ class HomeViewLoggedTest(TestCase):
     def test_html_has_apvma_image(self):
         expected = '<img src="/static/img/apvma.png"'
         self.assertContains(self.resp, expected)
+
+    def test_link_to_regimento_interno(self):
+        """Html must contain link to the 'regimento interno' (rules of the village)"""
+        expected = ['Regimento Interno', '<embed src="', self.internal_regiment.file.url]
+        for text in expected:
+            with self.subTest():
+                self.assertContains(self.resp, text)
 
     def test_link_to_accountability(self):
         expected = 'href="{}"'.format(r('accountability'))

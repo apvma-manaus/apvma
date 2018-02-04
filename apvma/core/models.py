@@ -1,5 +1,8 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from django.core.validators import FileExtensionValidator
 from django.db import models
+from django.utils import timezone
 
 from apvma.accounts.validators import validate_cpf
 
@@ -71,3 +74,23 @@ class Employee(models.Model):
 
     def __str__(self):
         return '{} {}'.format(self.full_name[0], self.full_name[-1])
+
+
+class InternalRegiment(models.Model):
+    file = models.FileField(upload_to='core/documents/internal_regiment/',
+                            validators=[FileExtensionValidator(['pdf'], 'O sistema só permite o upload de arquivos PDF.')])
+    uploaded_on = models.DateTimeField('criado em', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Regimento Interno'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.file.name.split('/')[-1]
+
+    def save(self, *args, **kwargs):
+        """It must exist only one file of Terms of Use"""
+        if InternalRegiment.objects.exists() and not self.pk:
+            raise ValidationError('Só pode existir 1 arquivo de Regimento Interno.')
+        self.uploaded_on = timezone.now()
+        return super(InternalRegiment, self).save(*args, **kwargs)

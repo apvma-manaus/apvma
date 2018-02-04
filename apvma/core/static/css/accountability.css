@@ -1,5 +1,10 @@
+h3 {
+    padding-left: 16px;
+    margin-bottom: 15px;
+}
+
 .account {
-    background-color: #4CAF50; /* Green */
+    background-color: black;
     width: 250px;
     border: none;
     border-radius: 8px;
@@ -8,12 +13,13 @@
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 20px;
     cursor: pointer;
+    margin: 5px 0;
 }
 
 .account:hover {
-    background-color: #4CAF50; /* Green */
+    background-color: gray;
     color: white;
     box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
     cursor: pointer;

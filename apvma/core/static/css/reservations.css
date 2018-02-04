@@ -1,3 +1,8 @@
+h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
 .calendar-message-success {
     align-content: center;
     width: 100%;
@@ -51,4 +56,19 @@
     border-radius: 5px;
     background-color: #B2B2DA; /* light blue */
     padding: 2px;
+}
+
+#request_reservation_button {
+    padding: 10px;
+    width: 12%;
+    margin-top: 6px;
+}
+
+#cancel_reservation_button {
+    margin-top: -10px;
+    margin-left: 5px;
+}
+
+#disponibility {
+    margin-top: 15px;
 }

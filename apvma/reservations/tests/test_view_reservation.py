@@ -240,9 +240,9 @@ class ReservationViewCalendar(TestCase):
             self.assertContains(self.resp, '<option value="2018-1-12"')
 
     def test_html_has_link_to_terms_of_use(self):
-        with self.subTest():
-            expected = ['termos de uso', '<embed src="', self.terms_of_use.file.url]
-            for text in expected:
+        expected = ['termos de uso', '<embed src="', self.terms_of_use.file.url]
+        for text in expected:
+            with self.subTest():
                 self.assertContains(self.resp, text)
 
 
