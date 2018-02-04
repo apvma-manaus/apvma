@@ -42,6 +42,10 @@ class HomeViewLoggedTest(TestCase):
             with self.subTest():
                 self.assertContains(self.resp, text, count)
 
+    def test_link_to_assembly(self):
+        expected = 'href="{}"'.format(r('assembly'))
+        self.assertContains(self.resp, expected)
+
     def test_link_to_accountability(self):
         expected = 'href="{}"'.format(r('accountability'))
         self.assertContains(self.resp, expected)

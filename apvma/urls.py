@@ -71,5 +71,8 @@ urlpatterns = [
     path('auth/', include('rest_framework.urls')),
 
     # contact_us urls
-    path('contact_us', include('apvma.contact_us.urls'))
+    path('contact_us', include('apvma.contact_us.urls')),
+
+    # assembly urls
+    path('assembly', include('apvma.assembly.urls')),
 ]

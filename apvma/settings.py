@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'apvma.accountability.apps.AccountabilityAppConfig',
     'apvma.reservations.apps.ReservationAppConfig',
     'apvma.contact_us',
+    'apvma.assembly.apps.AssemblyAppConfig',
 ]
 
 MIDDLEWARE = [
