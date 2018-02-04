@@ -13,6 +13,7 @@
     font-size: larger;
     text-decoration: none;
     color: black;
+    outline: none;
 }
 
 .menu:hover {
