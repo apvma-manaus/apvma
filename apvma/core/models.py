@@ -94,3 +94,23 @@ class InternalRegiment(models.Model):
             raise ValidationError('Só pode existir 1 arquivo de Regimento Interno.')
         self.uploaded_on = timezone.now()
         return super(InternalRegiment, self).save(*args, **kwargs)
+
+
+class Statute(models.Model):
+    file = models.FileField(upload_to='core/documents/statute/',
+                            validators=[FileExtensionValidator(['pdf'], 'O sistema só permite o upload de arquivos PDF.')])
+    uploaded_on = models.DateTimeField('criado em', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Estatuto'
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.file.name.split('/')[-1]
+
+    def save(self, *args, **kwargs):
+        """It must exist only one file of Terms of Use"""
+        if Statute.objects.exists() and not self.pk:
+            raise ValidationError('Só pode existir 1 arquivo de Estatuto.')
+        self.uploaded_on = timezone.now()
+        return super(Statute, self).save(*args, **kwargs)

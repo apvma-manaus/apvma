@@ -5,7 +5,7 @@ from django.test import TestCase
 from django.shortcuts import resolve_url as r
 from django.urls import reverse
 
-from apvma.core.models import InternalRegiment
+from apvma.core.models import InternalRegiment, Statute
 
 
 class HomeViewLoggedTest(TestCase):
@@ -13,6 +13,7 @@ class HomeViewLoggedTest(TestCase):
         User.objects.create_user(username='bruno', password='1234')
         self.client.login(username='bruno', password='1234')
         self.internal_regiment = InternalRegiment.objects.create(file='regimento_interno.pdf')
+        self.statute = Statute.objects.create(file='estatuto.pdf')
         self.resp = self.client.get(r('home'))
 
     def test_get(self):
@@ -29,12 +30,17 @@ class HomeViewLoggedTest(TestCase):
         expected = '<img src="/static/img/apvma.png"'
         self.assertContains(self.resp, expected)
 
-    def test_link_to_regimento_interno(self):
-        """Html must contain link to the 'regimento interno' (rules of the village)"""
-        expected = ['Regimento Interno', '<embed src="', self.internal_regiment.file.url]
-        for text in expected:
+    def test_links_to_regimento_interno_and_estatuto(self):
+        """Html must contain link to the 'regimento interno' (Internal Regiment of the village)
+        and to the 'estatuto' (Statute of APVMA)"""
+        expected = [('Regimento Interno', 1),
+                    ('Estatuto', 1),
+                    ('<embed src="', 2),
+                    (self.internal_regiment.file.url, 1),
+                    (self.statute.file.url, 1)]
+        for text, count in expected:
             with self.subTest():
-                self.assertContains(self.resp, text)
+                self.assertContains(self.resp, text, count)
 
     def test_link_to_accountability(self):
         expected = 'href="{}"'.format(r('accountability'))
