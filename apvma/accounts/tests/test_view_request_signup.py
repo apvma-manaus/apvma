@@ -63,7 +63,7 @@ class RequestSignUpPostValid(TestCase):
         """Html must show message after request signup"""
         expected = [
             'Solicitação de cadastro realizada com sucesso!',
-            'Aguarde que em breve entraremos em contato com você',
+            'Em breve entraremos em contato para informar os seus dados de acesso.',
             'APVMA'
         ]
         with self.subTest():
