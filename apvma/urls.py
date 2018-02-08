@@ -29,7 +29,7 @@ router.register(r'reservations', ReservationViewSet)
 urlpatterns = [
     path('home/', home, name='home'),
     path('admin/', admin.site.urls),
-    path('', RedirectView.as_view(pattern_name='login', permanent=False), name='index'),
+    path('', RedirectView.as_view(pattern_name='home', permanent=False), name='index'),
 
     # login urls
     path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
