@@ -112,7 +112,7 @@
               >
                 <strong>{{ day.day }}</strong>
                 <br>
-                {% if tp_reservation and day > today and day < maximum_reservation_date %}
+                {% if tp_reservation and day >= today and day <= maximum_reservation_date %}
                     {% if tp_reservation.status == 'aguardando pagamento' %}
                         <p align="center" class="calendar-tp-reservation-future" style="background-color: #D1E200">
                             {{ tp_reservation.spot }} - {{ tp_reservation.user.username }}
@@ -127,7 +127,7 @@
                         {{ tp_reservation.spot }} - {{ tp_reservation.user.username }}
                     </p>
                 {% endif %}
-                {% if sf_reservation and day > today and day < maximum_reservation_date %}
+                {% if sf_reservation and day >= today and day <= maximum_reservation_date %}
                     {% if sf_reservation.status == 'aguardando pagamento' %}
                          <p align="center" class="calendar-sf-reservation-future" style="background-color: #D1E200">
                             {{ sf_reservation.spot }} - {{ sf_reservation.user.username }}
