@@ -18,6 +18,11 @@ class ResidentModelTests(TestCase):
     def test_create(self):
         self.assertTrue(Resident.objects.exists())
 
+    def test_user_email(self):
+        """If resident has an apartment, User email must be the resident email"""
+        user = User.objects.get(username='RS603')
+        self.assertEqual(user.email, self.resident.email)
+
     def test_post_choices(self):
         """Post choices should be limited to CL, TCL, MJ, CP, 1T e 2T"""
         resident2 = Resident.objects.create(

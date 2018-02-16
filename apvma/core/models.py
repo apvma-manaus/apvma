@@ -61,6 +61,14 @@ class Resident(models.Model):
     def __str__(self):
         return '{} {}'.format(self.post, self.war_name.upper())
 
+    def save(self, *args, **kwargs):
+        """Save the email for the User, in case the resident has an apartment"""
+        if self.apartment:
+            user = User.objects.get(username=self.apartment.user)
+            user.email = self.email
+            user.save()
+        return super(Resident, self).save(*args, **kwargs)
+
 
 class Employee(models.Model):
     full_name = models.CharField('nome completo', max_length=100)
