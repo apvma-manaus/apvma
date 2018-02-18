@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
     <link rel="stylesheet" href="{% static 'css/reservations.css' %}">
+    <link rel="stylesheet" href="{% static 'css/reservations-mobile.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 {% endblock stylesheet %}
 
@@ -157,7 +158,7 @@
         {% if request.user.is_authenticated %}
         <h3>Faça sua reserva</h3>
 
-        <form action="." method="post">
+        <form action="." method="post" id="make_your_reservation">
         {% csrf_token %}
 
           <input type="hidden" name="user" id="user" value="{{ request.user.pk }}">
@@ -172,7 +173,7 @@
             </select>
             </label>
 
-            <label for="date" style="width: 25%; float: left; margin: 0 20px 0 0">
+            <label for="date" style="width: 25%; float: left; margin: 0 20px 0 0" id="reservation_date">
                 <span style="display: block; margin: 0 0 3px">Data</span>
             <select class="form-control" name="date" id="date" style="width: 100%; display: inline-block">
               <option disabled selected value>-----</option>

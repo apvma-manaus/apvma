@@ -3,6 +3,7 @@
 
 {% block stylesheet %}
     <link rel="stylesheet" href="{% static 'css/contact_us.css' %}">
+    <link rel="stylesheet" href="{% static 'css/contact_us-mobile.css' %}">
 {% endblock stylesheet %}
 
 
@@ -24,7 +25,7 @@
 
                 <div class="form-row label-block input-text">
                     <p>Escreva abaixo a sua sugestão, dúvida, reclamação ou elogio.</p>
-                    <div class="container-fluid">
+                    <div class="container-fluid" id="text_area">
                         {{ form.content.errors }}
                         {{ form.content }}
                     </div>
@@ -39,7 +40,7 @@
                 </div>
 
                 <div>
-                    <button type="submit" class="btn btn-primary">Enviar!</button>
+                    <button type="submit" class="btn btn-primary" id="send">Enviar!</button>
                 </div>
 
             </form>

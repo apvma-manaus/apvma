@@ -3,12 +3,13 @@
 
 {% block stylesheet %}
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home-mobile.css' %}">
 {% endblock %}
 
 {% block content %}
     <section>
     <div class="container">
-        <div class="row justify-content-md-center">
+        <div class="row justify-content-md-center" id="main_docs">
             <a class="text-center menu" id="internal_regiment" data-toggle="modal" href="#internal_regiment_modal">Regimento Interno</a>
             <a class="text-center menu" id="statute" data-toggle="modal" href="#statute_modal">Estatuto</a>
         </div>
@@ -54,6 +55,7 @@
 
             <a class="text-center menu" id="menu1-3" href="/reservations/{% now "Y/n" %}/">Reserva de Ambiente</a>
         </div>
+
 
         <div class="row">
             <a class="text-center menu" id="menu2-1" href="/contact_us">Fale conosco</a>

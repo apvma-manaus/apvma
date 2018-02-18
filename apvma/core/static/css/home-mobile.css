@@ -1,0 +1,42 @@
+/*Tamanho padrão para tablets*/
+@media only screen and (max-width: 768px) {
+
+}
+
+
+/*Tamanho padrão para smartphones*/
+@media only screen and (max-width: 468px) {
+    #main_docs {
+        display: inline-block;
+        margin-top: 10px;
+    }
+
+    .menu {
+        width: 180px;
+    }
+
+    #menu1-1, #menu1-3 {
+        margin: 10px 70px;
+        height: 150px;
+        width: 190px;
+        padding-top: 35px;
+    }
+
+    #menu1-2 {
+        margin: 10px 70px;
+        margin-left: 70px;
+        height: 150px;
+        width: 190px;
+        padding-top: 35px;
+    }
+
+    #menu2-1 {
+        margin: 10px 70px;
+        margin-left: -50px;
+        height: 150px;
+        width: 190px;
+        padding-top: 50px;
+        position: absolute;
+
+    }
+}

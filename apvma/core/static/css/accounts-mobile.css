@@ -1,0 +1,12 @@
+/*Tamanho padrão para tablets*/
+@media only screen and (max-width: 768px) {
+
+}
+
+
+/*Tamanho padrão para smartphones*/
+@media only screen and (max-width: 468px) {
+    #card_request_signup {
+        margin-bottom: 15px;
+    }
+}

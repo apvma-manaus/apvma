@@ -1,0 +1,36 @@
+/*Tamanho padrão para tablets*/
+@media only screen and (max-width: 768px) {
+
+}
+
+
+/*Tamanho padrão para smartphones*/
+@media only screen and (max-width: 468px) {
+    #text_area {
+        height: 350px;
+    }
+
+    .form-row p {
+        margin-left: 0;
+        font-size: 14px;
+        margin-bottom: 7px;
+    }
+
+    #upload_file p {
+        font-size: 12px;
+        margin-bottom: 0;
+    }
+
+    #upload_file input {
+        font-size: 14px;
+    }
+
+    #id_identify {
+        font-size: 13px;
+    }
+
+    #send {
+        width: 50%;
+        margin-bottom: 20px;
+    }
+}

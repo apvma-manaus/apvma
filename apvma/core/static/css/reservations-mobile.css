@@ -1,0 +1,80 @@
+/*Tamanho padrão para tablets*/
+@media only screen and (max-width: 768px) {
+
+}
+
+
+/*Tamanho padrão para smartphones*/
+@media only screen and (max-width: 468px) {
+    h3 {
+        font-size: 16px;
+        margin-top: -5px;
+        margin-bottom: 5px;
+    }
+
+    table {
+        width: 100%;
+        font-size: 13px;
+    }
+
+    label {
+        font-size: 12px;
+    }
+
+    .form-group {
+        margin-bottom: 0;
+    }
+
+    #cancel_reservation {
+        width: 57% !important;
+        height: 27px;
+        font-size: 10px;
+        padding: 0px;
+    }
+
+    #cancel_reservation_button {
+        width: 40%;
+    }
+
+    .calendar-tp-reservation-future, .calendar-sf-reservation-future {
+        font-size: 10px;
+        width: 30% !important;
+    }
+
+    p.calendar-sf-reservation-future, p.calendar-tp-reservation-future,
+    p.calendar-sf-reservation-past, p.calendar-tp-reservation-past {
+        width: 100% !important;
+    }
+
+    #make_your_reservation #spot {
+        width: 300px !important;
+        font-size: 10px;
+        height: 27px;
+    }
+
+    #make_your_reservation #reservation_date span {
+        margin-top: 50px !important;
+        margin-left: -100px !important;
+    }
+
+    #make_your_reservation #date {
+        width: 300px !important;
+        margin-left: -103px;
+        font-size: 10px;
+        height: 27px;
+    }
+
+    #make_your_reservation #terms_of_use {
+        margin-left: -200px;
+        margin-top: 80px;
+    }
+
+    #request_reservation_button {
+        margin-left: -200px;
+        margin-top: 125px;
+        position: absolute;
+        width: 80%;
+        margin-bottom: 20px;
+    }
+
+}
