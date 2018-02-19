@@ -1,11 +1,9 @@
 from django.contrib.auth.models import User, Group
-from django.core import mail
-from django.test import TestCase
 from django.shortcuts import resolve_url as r
+from django.test import TestCase
 from django.urls import reverse
 
 from apvma.contact_us.forms import ContactUsForm
-from apvma.core.models import Apartment, Resident
 
 
 class ContactUsViewNotLoggedTests(TestCase):
@@ -25,7 +23,7 @@ class ContactUsPermissionTests(TestCase):
         self.resp = self.client.get(r('contact_us'))
 
     def test_not_in_resident_group_no_access(self):
-        """users not in 'permissionários' group should not access the reservations view"""
+        """users not in 'permissionários' group should not access the contact_us view"""
         url = r('home')
         self.assertRedirects(self.resp, '{}?next={}'.format(url, reverse('contact_us')))
 

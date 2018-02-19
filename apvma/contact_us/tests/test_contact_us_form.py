@@ -19,7 +19,7 @@ class ContactUsFormTests(TestCase):
     def test_identify_field_required(self):
         """One identification option must be selected"""
         form = self.make_validated_form(identify='')
-        self.assertRaises(ValidationError)
+        self.assertTrue(form.errors)
 
     def test_file_field_not_required(self):
         """Upload file is optional"""
