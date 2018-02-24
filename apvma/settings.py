@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'apvma.reservations.apps.ReservationAppConfig',
     'apvma.contact_us',
     'apvma.assembly.apps.AssemblyAppConfig',
+    'apvma.visitors.apps.VisitorsAppConfig',
 ]
 
 MIDDLEWARE = [
@@ -122,6 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'America/Manaus'
+TIME_INPUT_FORMATS = ['%H:%M']
 
 USE_I18N = True
 

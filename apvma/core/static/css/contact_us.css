@@ -42,3 +42,14 @@ textarea {
 .identification_option ul {
     list-style: none;
 }
+
+button#send.btn.btn-primary {
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    cursor: pointer;
+}
+
+button#send.btn.btn-primary:hover {
+    background-color: #265a88;
+    border-color: #265a88;
+}

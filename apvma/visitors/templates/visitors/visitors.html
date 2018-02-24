@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block stylesheet %}
+
+
+    <!-- DateTimePicker script -->
+    <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" />
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+
+    <!-- Visitor CSS style -->
+    <link rel="stylesheet" href="{% static 'css/visitors.css' %}">
+    <link rel="stylesheet" href="{% static 'css/visitors-mobile.css' %}">
+
+
+{% endblock stylesheet %}
+
+
+{% block content %}
+
+    <div id="my_visits">
+    <h3>Entradas autorizadas por mim:</h3>
+
+        {% if my_visitors_planned %}
+
+            <table width="85%" border="1" align="center" id="table_visits">
+                <tr align="center" height="40" bgcolor="#E3E3E3">
+                    <td width="25%"><b>ESTIMADA</b></td>
+                    <td width="45%"><b>NOME / DESCRIÇÃO</b></td>
+                    <td width="15%"><b>CHEGADA</b></td>
+                    <td width="15%"><b>SAÍDA</b></td>
+                </tr>
+                {% for visit in my_visitors_planned %}
+                    <tr align="center" height="30" id="visit_{{ visit.pk }}">
+                        <td>{{ visit.datetime | date:'d/m/Y' }} - {{ visit.datetime | time:'H:i \h' }}</td>
+                        <td align="left" style="padding-left: 5px">{{ visit.description }}</td>
+                        <td>{{ visit.arrival_time | time:'H:i \h' }}</td>
+                        <td>{{ visit.exit_time | time:'H:i \h' }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+
+            <form action="#" method="post">
+                {% csrf_token %}
+
+                  <input type="hidden" name="user" id="user" value="{{ request.user.pk }}">
+
+                  <div class="form-group">
+                    <label for="cancel_visitor_authorization" id="cancel_visitor_authorization">Cancelar autorização de entrada</label> <br/>
+                    <select class="form-control" id="cancel_authorization" name="cancel_authorization" required>
+                        <option disabled selected value>-----</option>
+                        {% for visit in my_visitors_planned %}
+                            <option value="{{ visit.pk }}">{{ visit.datetime | date:'d/m/y H:m'}}h - {{ visit.description }}</option>
+                        {% endfor %}
+                    </select>
+                    <div align="center">
+                        <button type="submit" class="btn btn-primary" name="cancel_authorization_button" id="cancel_authorization_button">Cancelar autorização</button>
+                    </div>
+                  </div>
+            </form>
+        {% else %}
+
+            <p>Você não possui entradas autorizadas.</p>
+
+        {% endif %}
+
+    </div>
+
+    <div id="authorize_visit">
+        {% if request.user.is_authenticated %}
+        <h3>Autorizar entrada:</h3>
+
+            <form action="#" method="post" id="authorize_visitor">
+            {% csrf_token %}
+                <input type="hidden" name="user" id="user" value="{{ request.user }}">
+
+                <div class="container">
+                    <div class="form-group">
+                      <div class="row">
+                          <div class="col-md-12">
+                              <div class="row">
+                                  {{ form.datetime.label_tag }}
+                                  {{ form.datetime }}
+                              </div>
+                              <div class="row" id="description_row">
+                                  {{ form.description.label_tag }}
+                                  {{ form.description }}
+                              </div>
+                          </div>
+                          <div align="center" id="button_new_authorization">
+                            <button type="submit" class="btn btn-primary" name="new_authorization_button" id="new_authorization_button">Enviar para a Portaria</button>
+                          </div>
+                      </div>
+                  </div>
+               </div>
+                <row>
+
+                </row>
+
+
+            </form>
+
+        {% endif %}
+    </div>
+
+    <script type="text/javascript">
+        $('#id_datetime').datetimepicker({
+            format: 'DD/MM/YY - HH:mm',
+            sideBySide: true,
+            locale: 'pt-br'
+        });
+    </script>
+{% endblock content %}

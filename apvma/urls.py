@@ -75,4 +75,7 @@ urlpatterns = [
 
     # assembly urls
     path('assembly', include('apvma.assembly.urls')),
+
+    # visitors urls
+    path('visitors', include('apvma.visitors.urls')),
 ]

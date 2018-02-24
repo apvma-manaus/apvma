@@ -1,0 +1,66 @@
+#table_visits {
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+#cancel_authorization_button, #new_authorization_button {
+    background-image: none;
+    font-weight: 400;
+    border-radius: .25rem !important;
+    font-size: 16px;
+}
+
+#new_authorization_button {
+    margin: 10px
+}
+
+#cancel_authorization {
+    height: 30px;
+    margin-bottom: 10px;
+}
+
+label {
+    padding-top: 5px;
+}
+
+#id_description {
+    position: relative;
+    height: 50px;
+    resize: both;
+    width: 60%;
+}
+
+#description_row {
+    box-sizing: border-box;
+}
+
+#id_description, input#id_datetime {
+    background-color: rgba(240, 240, 240, 0.9);
+    padding-left: 1%;
+    border-radius: 5px;
+    border-color: black;
+    border-width: 1px;
+}
+
+
+
+div#description_row.row {
+    margin-top: 5px;
+}
+
+label {
+    float: left;
+    width: 150px;
+    text-align: right;
+    margin-right: 0.5em;
+}
+
+label#cancel_visitor_authorization {
+    width: 100%;
+    text-align: left;
+}
+
+div#button_new_authorization {
+    width: 100%;
+    max-width: 1110px;
+}
