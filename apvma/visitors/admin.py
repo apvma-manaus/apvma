@@ -9,15 +9,15 @@ class VisitorAdmin(admin.ModelAdmin):
     list_filter = ['datetime',]
     list_editable = ['card', 'arrival_time', 'exit_time']
 
-    def apartment(self, obj):
-        apartment = Apartment.objects.get(user=obj.user)
-        return apartment
+    # def apartment(self, obj):
+    #     apartment = Apartment.objects.get(user=obj.user)
+    #     return apartment
 
     def resident(self, obj):
-        resident = Resident.objects.get(apartment__user=obj.user)
+        resident = Resident.objects.get(apartment__user=obj.apartment.user)
         return resident
 
-    apartment.short_description = 'apartamento'
+    #apartment.short_description = 'apartamento'
     resident.short_description = 'morador'
 
 admin.site.register(Visitor, VisitorAdmin)

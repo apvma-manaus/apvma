@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required, user_passes_test
 
+from apvma.core.models import Apartment
 from apvma.core.user_passes_tests import in_resident_group
 from apvma.visitors.forms import AuthorizeVisitorForm
 from apvma.visitors.models import Visitor
@@ -26,7 +27,7 @@ def visitors(request):
     else:
         form = AuthorizeVisitorForm()
         my_visitors_planned = Visitor.objects.filter(
-            user=request.user.pk).filter(Q(exit_time=None) |
+            apartment__user=request.user).filter(Q(exit_time=None) |
                                          Q(datetime__gte=datetime.today())).order_by('datetime')
         context = {'my_visitors_planned': my_visitors_planned,
                    'form': form}
@@ -35,10 +36,10 @@ def visitors(request):
 def new_authorization(request):
     _datetime = datetime.strptime(request.POST['datetime'], '%d/%m/%y - %H:%M')
     description = request.POST['description']
-    user = request.user
+    apartment = Apartment.objects.get(user=request.user)
     Visitor.objects.create(datetime=_datetime,
                            description=description,
-                           user=user)
+                           apartment=apartment)
 
     messages.success(request, 'Autorização enviada com sucesso.')
 

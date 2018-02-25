@@ -79,18 +79,13 @@ class VisitorsViewLoggedTests(TestCase):
         self.assertIsInstance(self.form, AuthorizeVisitorForm)
 
 
-
-    # def test_has_form(self):
-    #     """Context must have AuthorizeVisitorsForm form"""
-    #     self.assertIsInstance(self.form, AuthorizeVisitorsForm)
-
-
 @freeze_time('2018-02-20')
 class VisitorsViewVisitorsPlannedTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='usuario', password='password')
         self.user2 = User.objects.create_user(username='usuario2', password='password2')
         self.apartment = Apartment.objects.create(block='RS', number='603', user=self.user)
+        self.apartment2 = Apartment.objects.create(block='RN', number='101', user=self.user2)
         self.resident = Resident.objects.create(
             post='MJ', full_name='Bruno Luiz Santana de Araujo',
             war_name='Santana', cpf='12345678901',
@@ -98,13 +93,13 @@ class VisitorsViewVisitorsPlannedTests(TestCase):
         )
         self.visitor = Visitor.objects.create(datetime=datetime(2018, 2, 20, 17, 0),
                                               description='Fogás entrega de gás',
-                                              user=self.user)
+                                              apartment=self.apartment)
         self.visitor_old = Visitor.objects.create(datetime=datetime(2018, 2, 19, 16, 0),
                                               description='Visita antiga',
-                                              user=self.user)
+                                              apartment=self.apartment)
         self.visitor2 = Visitor.objects.create(datetime=datetime(2018, 2, 21, 18, 0),
                                               description='Visita de outro morador',
-                                              user=self.user2)
+                                              apartment=self.apartment2)
         self.group = Group.objects.create(name='permissionários')
         self.user.groups.add(self.group)
         self.user.save()
@@ -177,7 +172,7 @@ class VisitorsPostCancelVisitTests(TestCase):
         )
         self.visitor = Visitor.objects.create(datetime=datetime(2018, 2, 20, 17, 0),
                                               description='Fogás entrega de gás',
-                                              user=self.user)
+                                              apartment=self.apartment)
         self.group = Group.objects.create(name='permissionários')
         self.user.groups.add(self.group)
         self.user.save()

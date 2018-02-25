@@ -12,9 +12,10 @@ from apvma.visitors.models import Visitor
 class VisitorsModelTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='bruno', password='1234')
+        self.apartment = Apartment.objects.create(block='RS', number='603', user=self.user)
         self.visitor = Visitor.objects.create(datetime='2018-02-20 12:00',
                                               description='Fogás entrega de gás',
-                                              user=self.user)
+                                              apartment=self.apartment)
 
     def test_create(self):
         self.assertTrue(Visitor.objects.exists())

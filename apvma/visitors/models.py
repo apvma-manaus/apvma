@@ -1,9 +1,10 @@
 from datetime import datetime
 
-from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+
+from apvma.core.models import Apartment
 
 
 class Visitor(models.Model):
@@ -15,12 +16,12 @@ class Visitor(models.Model):
     exit_time = models.TimeField('saída', blank=True, null=True)
     card = models.PositiveIntegerField('cartão', blank=True, null=True, validators=[MinValueValidator(1),
                                                                                     MaxValueValidator(60)])
-    user = models.ForeignKey(User,verbose_name='apartamento', on_delete=models.CASCADE)
+    apartment = models.ForeignKey(Apartment,verbose_name='apartamento', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Visita Autorizada'
         verbose_name_plural = 'Visitas Autorizadas'
-        ordering = ('-datetime', 'user', 'description')
+        ordering = ('-datetime', 'apartment', 'description')
 
     def save(self, *args, **kwargs):
         '''Auto save for arrival_date and exit_date when changing arrival_time and exit_time'''
