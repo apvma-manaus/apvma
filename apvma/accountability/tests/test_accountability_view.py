@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.test import TestCase
 from django.shortcuts import resolve_url as r
 from django.urls import reverse
@@ -8,7 +8,10 @@ from apvma.accountability.models import Accountability
 
 class AccountabilityViewLoggedTest(TestCase):
     def setUp(self):
-        User.objects.create_user(username='usuario', password='password')
+        self.user = User.objects.create_user(username='usuario', password='password')
+        self.group = Group.objects.create(name='permissionários')
+        self.user.groups.add(self.group)
+        self.user.save()
         self.client.login(username='usuario', password='password')
         self.accountability = Accountability.objects.create(date='2018-01-01', file='DEZ_2018.pdf')
         self.resp = self.client.get(r('accountability'))

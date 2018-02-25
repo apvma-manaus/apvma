@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.test import TestCase
 from django.shortcuts import reverse, resolve_url as r
 
@@ -16,7 +16,10 @@ class AssemblyViewNotLoggedTest(TestCase):
 
 class AssemblyViewLoggedTest(TestCase):
     def setUp(self):
-        User.objects.create_user(username='usuario', password='password')
+        self.user = User.objects.create_user(username='usuario', password='password')
+        self.group = Group.objects.create(name='permissionários')
+        self.user.groups.add(self.group)
+        self.user.save()
         self.client.login(username='usuario', password='password')
         self.assembly = Assembly.objects.create(file='assembly_minute_26_JAN_2018.pdf',
                                                 date='2018-01-26')
