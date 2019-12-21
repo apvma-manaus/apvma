@@ -58,6 +58,20 @@ h3 {
     padding: 2px;
 }
 
+.calendar-ta-reservation-future {
+    color: white;
+    border-radius: 5px;
+    background-color: saddlebrown;
+    padding: 2px;
+}
+
+.calendar-ta-reservation-past {
+    color: white;
+    border-radius: 5px;
+    background-color: rosybrown; /* light brown */
+    padding: 2px;
+}
+
 #request_reservation_button {
     padding: 10px;
     width: 12%;

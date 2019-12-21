@@ -36,13 +36,13 @@
         width: 40%;
     }
 
-    .calendar-tp-reservation-future, .calendar-sf-reservation-future {
+    .calendar-tp-reservation-future, .calendar-sf-reservation-future, .calendar-ta-reservation-future {
         font-size: 10px;
         width: 30% !important;
     }
 
-    p.calendar-sf-reservation-future, p.calendar-tp-reservation-future,
-    p.calendar-sf-reservation-past, p.calendar-tp-reservation-past {
+    p.calendar-sf-reservation-future, p.calendar-tp-reservation-future, .calendar-ta-reservation-future,
+    p.calendar-sf-reservation-past, p.calendar-tp-reservation-past, .calendar-ta-reservation-past {
         width: 100% !important;
     }
 
