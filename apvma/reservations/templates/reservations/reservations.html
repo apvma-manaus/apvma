@@ -68,6 +68,7 @@
     <div align="center">
     <h5 class="calendar-tp-reservation-future" align="center" style="display: inline-block; width: 20%; padding: 5px">TP = Tapiri</h5>
     <h5 class="calendar-sf-reservation-future" align="center" style="display: inline-block; width: 20%; padding: 5px">SF = Salão de Festas</h5>
+    <h5 class="calendar-ta-reservation-future" align="center" style="display: inline-block; width: 20%; padding: 5px">TA = Tapiri das Árvores</h5>
     <H5 class="calendar-tp-reservation-future" align="center" style="display: inline-block; width: 20%; padding: 5px; background-color: #D1E200">Aguardando pagamento</h5>
     </div>
 
@@ -103,7 +104,7 @@
           <tbody>
             {% for week in calendar %}
             <tr style="height: 100px">
-              {% for day, tp_reservation, sf_reservation in week %}
+              {% for day, tp_reservation, sf_reservation, ta_reservation in week %}
               <td style="border: 1px solid black"
                 {% if selected_date.month != day.month or day > maximum_reservation_date or day <= minimum_reservation_date %}
                 class ="other"
@@ -142,6 +143,21 @@
                     <p align="center" class="calendar-sf-reservation-past">
                         {{ sf_reservation.spot }} - {{ sf_reservation.user.username }}
                     </p>
+                {% endif %}
+                {% if ta_reservation and day >= today and day <= maximum_reservation_date %}
+                    {% if ta_reservation.status == 'aguardando pagamento' %}
+                        <p align="center" class="calendar-ta-reservation-future" style="background-color: #D1E200">
+                            {{ ta_reservation.spot }} - {{ ta_reservation.user.username }}
+                        </p>
+                    {% else %}
+                        <p align="center" class="calendar-ta-reservation-future">
+                            {{ ta_reservation.spot }} - {{ ta_reservation.user.username }}
+                        </p>
+                    {% endif %}
+                {% elif ta_reservation %}
+                    <p align="center" class="calendar-ta-reservation-past">
+                        {{ ta_reservation.spot }} - {{ ta_reservation.user.username }}
+                    </p>
                 {% else %}
                     <p>&nbsp;</p>
                 {% endif %}
@@ -170,6 +186,7 @@
                 <option disabled selected value>-----</option>
                 <option value="TP">Tapiri</option>
                 <option value="SF">Salão de Festas</option>
+                <option value="TA">Tapiri das Árvores</option>
             </select>
             </label>
 
@@ -178,9 +195,9 @@
             <select class="form-control" name="date" id="date" style="width: 100%; display: inline-block">
               <option disabled selected value>-----</option>
               {% for week in calendar %}
-              {% for day, tp_reservation, sf_reservation in week %}
+              {% for day, tp_reservation, sf_reservation, ta_reservation in week %}
               {% if selected_date.month == day.month and day <= maximum_reservation_date and day > minimum_reservation_date %}
-              {% if not tp_reservation or not sf_reservation %}
+              {% if not tp_reservation or not sf_reservation or not ta_reservation %}
               <option value="{{ day.year }}-{{ day.month }}-{{ day.day}}">{{ day }}</option>
               {% endif %}
               {% endif %}

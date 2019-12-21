@@ -12,7 +12,8 @@ from apvma.reservations.manager import ValidReservationManager
 class Reservation(models.Model):
     SPOTS = (
         ('TP', 'Tapiri'),
-        ('SF', 'Salão de Festas')
+        ('SF', 'Salão de Festas'),
+        ('TA', 'Tapiri das Árvores'),
     )
 
     user = models.ForeignKey(User,verbose_name='apartamento', on_delete=models.CASCADE)

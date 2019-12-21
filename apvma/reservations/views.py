@@ -109,8 +109,15 @@ def _calendar(selected_date):
     sf_filters = {'spot': 'SF', 'date__year':  year, 'date__month': month}
     sf_reservations = {b.date: b for b in Reservation.valid_reservations.filter(**sf_filters)}
 
+    # Tapiri das Arvores valid reservations (not cancelled nor expired)
+    ta_reservations = Reservation.objects.filter(
+        spot='TA', date__year=year, date__month=month,
+    )
+    ta_filters = {'spot': 'TA', 'date__year': year, 'date__month': month}
+    ta_reservations = {b.date: b for b in Reservation.valid_reservations.filter(**ta_filters)}
+
     calendar = Calendar(firstweekday=6)
     today = date.today()
     for week in calendar.monthdatescalendar(year, month):
-        yield [(day, tp_reservations.get(day), sf_reservations.get(day)) for day in week]
+        yield [(day, tp_reservations.get(day), sf_reservations.get(day), ta_reservations.get(day)) for day in week]
 
